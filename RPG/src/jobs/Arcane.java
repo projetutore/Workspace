@@ -95,7 +95,7 @@ public class Arcane {
 	}
 
 	public void setEffetArcane(Effet effetArcane) {
-		this.effetArcane = effetArcanekb;
+		this.effetArcane = effetArcane;
 	}
 
 	public String toString(){
