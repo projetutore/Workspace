@@ -2,5 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/fabi/Documents/Jeffrey/UML/Modelio 3.3/modules/JavaDesigner_3.3.00/JavaDesigner/bin/javadesigner.jar"/>
+	<classpathentry kind="lib" path="C:/Users/fabi/Documents/Jeffrey/UML/Modelio 3.3/modules/JavaDesigner_3.3.00/JavaDesigner/lib/javadesigner-3.3.00.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
