@@ -1,140 +1,104 @@
 package jobs;
 
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import Objets.Arme;
 
 import java.util.Scanner;
 
-@objid ("2205ae55-09e5-4d6b-8984-b9c3e42fc46a")
 public class Heros extends Personnage {
 	
-    @objid ("b4870a1e-0a67-44f0-828b-a651c2812a9e")
-    private int horsLimite;
-
-    @objid ("38eed8bc-3656-490d-83ff-01c39df4b026")
+    /**
+     * Un heros possède une experience
+     * integer. 
+     */
     private int experience;
 
-    @objid ("9f7e37e4-b375-484f-b56b-7e5a658dc101")
     private int niveau;
 
-    @objid ("d73c7a32-769e-4db6-ae54-5eaa543ccf96")
-    private int creation;
-
-    @objid ("77d7b0da-1851-44a4-a870-bd4bf9bcc0cb")
     private Jobs job;
 
-    @objid ("d44fa5aa-2711-496e-b94f-37d0e162f55b")
     private Arcane[] tabArcaneHeros;
 
-    @objid ("812b20ce-ea4d-4afb-880c-8f03c990260f")
+    private Arme mainDroite = new Arme("MainDroite", 0, 0, null, 1); 
+    private Arme mainGauche = new Arme("Maingauche", 0, 0, null, 1);
+
+    public static final int PTS_NIV = 2;
+    /**
+     * Constructeur par defaut d'un Heros
+     */
     public Heros() {
+    	/**
+    	 * Fait appel au constructeur par defaut de la classe Personnage
+    	 */
         super();
+        /**
+         * Instancie un job avec le constructeur par defaut.
+         */
         this.job = new Jobs();
-        this.horsLimite = 0;
+        /**
+         * Met l'experience du Heros a 0.
+         */
         this.experience = 0;
+        /**
+         * Met le niveau du heros à 1
+         */
         this.niveau = 1;
-        this.creation = 0;
+        /**
+         * Donne un tableau de 5 Arcanes au heros.
+         * Leur valeur sera null
+         */
         this.tabArcaneHeros = new Arcane[5];
+        /**
+         * L'attaque du heros est la somme entre son degré de force
+         * et le degré d'Attaque de son arme
+         */
+
     }
 
-    @objid ("86389886-08b2-456e-9c80-905412b02b19")
-    public Heros(String nom, int vie, int maxVie, int mana, int maxMana, int force, int maxForce, int intelligence, 
-    		int maxIntelligence, int agilite, int maxAgilite, int constitution, int maxConstitution, int resistance, 
-    		int maxResistance, int pa, int maxPa, Jobs job, int horsLimite, int experience, int niveau, 
-    		int creation, Arcane[] tabArcaneHeros) {
-        super(nom, vie, maxVie, mana, maxMana, force, maxForce, intelligence,
-                maxIntelligence, agilite, maxAgilite, constitution,
-                maxConstitution, resistance, maxResistance, pa, maxPa);
-        this.job = job;
-        this.horsLimite = horsLimite;
-        this.experience = experience;
-        this.niveau = niveau;
-        this.creation = creation;
-        this.tabArcaneHeros = tabArcaneHeros;
-    }
 
-    public Heros(String nom, int maxVie, int maxMana, int maxForce, int maxIntelligence, int maxAgilite, int maxConstitution,
-    		int maxResistance, int maxPa, 
-    		Jobs job, int horsLimite, int experience, int niveau, 
-    		int creation, Arcane[] tabArcaneHeros){
-    	super(nom, maxVie, maxMana, maxForce, maxIntelligence, maxAgilite, maxConstitution, maxResistance, maxPa);
-    	this.job = job;
-        this.horsLimite = horsLimite;
-        this.experience = experience;
-        this.niveau = niveau;
-        this.creation = creation;
-        this.tabArcaneHeros = tabArcaneHeros;
-    }
-    @objid ("c026bb53-5579-4cdc-ad4e-f929dc35edd0")
-    public Heros(Heros nomme) {
-        super(nomme);
-        this.job = new Jobs(nomme.getJob());
-        this.horsLimite = nomme.getHorsLimite();
-        this.experience = nomme.getExperience();
-        this.niveau = nomme.getNiveau();
-        this.creation = nomme.getCreation();
-        this.tabArcaneHeros =  nomme.getTabArcaneHeros();
-    }
-
+	public Heros(String nom, int vie, int mana, int force, int intelligence, int agilite, int constitution,
+    		int resistance, int maxPa, Jobs job, Arcane[] tabArcaneHeros,
+			Arme mainDroite, Arme mainGauche) {
+		super(nom, vie, mana, force, intelligence, agilite, constitution, resistance, maxPa);
+		this.niveau = 1;
+		this.job = job;
+		this.tabArcaneHeros = tabArcaneHeros;
+		this.mainDroite = mainDroite;
+		this.mainGauche = mainGauche;
+        this.remiseAttaque();
+        this.remiseDegats();
+	}
    
-    @objid ("91724160-b16a-47ce-8a60-14dc45803a9b")
     public Jobs getJob() {
         return job;
     }
 
-    @objid ("f15b331b-e8de-42d8-bcd5-0b461eda5a2f")
     public void setJob(Jobs job) {
         this.job = job;
     }
 
-    @objid ("cc612c0c-4e2b-4d54-8948-74f17f89b366")
-    public int getHorsLimite() {
-        return horsLimite;
-    }
-
-    @objid ("26151899-c89b-44a1-8190-38415f86be48")
-    public void setHorsLimite(int horsLimite) {
-        this.horsLimite = horsLimite;
-    }
-
-    @objid ("ef0ac767-8756-4212-b69f-56534e663632")
     public int getExperience() {
         return experience;
     }
 
-    @objid ("d36df90b-0f56-4899-bef6-048694d8cdb7")
     public void setExperience(int experience) {
         this.experience = experience;
-        if (this.experience>=100 && this.niveau <30){
+        if (this.experience>=100 && this.niveau <19){
         	this.niveauSuperieur();
         }
     }
 
-    @objid ("3ed59b32-fd46-47f3-9c3c-7888bd68e5ff")
     public int getNiveau() {
         return niveau;
     }
 
-    @objid ("2ce26ff5-1572-44de-bfa9-80f0623367bf")
     public void setNiveau(int niveau) {
         this.niveau = niveau;
     }
 
-    @objid ("3983e511-92e8-499c-b3fa-9319bc11e064")
-    public int getCreation() {
-        return creation;
-    }
-
-    @objid ("f58f3dbf-9276-4084-8925-1409c44d2acc")
-    public void setCreation(int creation) {
-        this.creation = creation;
-    }
-
-    @objid ("9253eff4-5b5c-46f1-a396-85812fd73019")
     public Arcane[] getTabArcaneHeros() {
         return tabArcaneHeros;
     }
 
-    @objid ("6e6b7639-4fd4-4c03-b1a4-d4dc51075647")
     public void setTabArcaneHeros(Arcane[] tabArcaneHeros) {
         this.tabArcaneHeros = tabArcaneHeros;
     }
@@ -146,28 +110,42 @@ public class Heros extends Personnage {
     public void setArcaneHeros(int i){
     	this.tabArcaneHeros[i]=this.getJob().getArcaneDeJob(i);
     }
-    @objid ("3e71e256-7f58-480b-b584-d2cfb17eb55a")
-    public int gainExperience(int xp) {
-        return this.experience = this.experience+xp;
-    }
+    public Arme getMainDroite() {
+		return mainDroite;
+	}
 
-    @objid ("4b12bbcf-5109-498f-ac8f-b1ea3834a8e6")
+	public void setMainDroite(Arme mainDroite) {
+		this.mainDroite = mainDroite;
+	}
+
+	public Arme getMainGauche() {
+		return mainGauche;
+	}
+
+	public void setMainGauche(Arme mainGauche) {
+		this.mainGauche = mainGauche;
+	}
+
     public void niveauSuperieur() {
-                for(@SuppressWarnings("unused")
-                int i = 0; this.experience >= 100 && (this.niveau < 30) ; i++) {    
+    	@SuppressWarnings("unused")
+		FichePerso base = null;
+    	int gNiveau = 0;
+                while(this.experience >=100 && this.niveau < 20){
                         this.experience -=100;
                         this.niveau++;
                         System.out.println(this.getNom() +" a pris en puissance, le niveau " + this.niveau + " a été atteint.");
                         this.repartitionPoints();
-                        }
-                     this.experience = 0;
+                        gNiveau++;
+                        
+                }
+                base = new FichePerso(this.getNom(),this, PTS_NIV*gNiveau);
+                this.remiseDegree();
     }
 
 /*
      * Cette fonction sert à créer son héros, l'utilisateur choisit la classe du héros, donne son nom et sa classe 
      * Le tableau de la classe est donc attribué au héros et le premier Arcane de la classe est débloqué.
      */
-    @objid ("048660f3-936a-4136-9a33-0ff7295af17b")
     public Heros creationPersonnage() {
         System.out.println("Vous voici à l'heure de la création de votre personnage\n "+
                 "Tout d'abord, comment vous appelerez vous?");
@@ -183,49 +161,11 @@ public class Heros extends Personnage {
                             + "3 - Arcaniste \n"
                             + "4 - Lance Rouge \n"
                             + "5 - Bretteur \n"
-                            + "6 - Plus d'info sur le personnage"
                             );
         int choix = creationPersonnage.nextInt();
-        switch (choix){
-        case 1: 
-            x.setJob(x.getJob().paladin(x));        
-            System.out.println("Votre personnage est donc un Paladin");
-            System.out.println(x.getJob());
-            break;
-        case 2:
-            x.setJob(x.getJob().maraudeur(x));    
-            break;
-        case 3:
-            x.setJob(x.getJob().arcaniste(x));        
-            break;
-        case 4:
-            x.setJob(x.getJob().lanceRouge(x));        
-            break;
-        case 5:
-            x.setJob(x.getJob().bretteur(x));        
-            break;
-        case 6:
-            System.out.println("Le Paladin :  c'est un protecteur, de ce fait, "
-                                + "il est beaucoup plus résistant que tout autre classe, cependant, "
-                                + "ses coups sont de qualitïés moyennes et il est assez lent, cependant"
-                                + "il croît de manière naturelle dans toute les stats sans exceller dans une seule.\n"
-                                + "Le Maraudeur : un être habitué à vivre dans les zones difficiles et ayant pour habitude de se débrouiller sans aucun problème"
-                                + "de ce fait, il est agile et excelle dans les coups puissants."
-                                + "Cependant, la fusion des deux lui empêche d'agir rapidement,\n"
-                                + "sa puissance lui permet donc de finir ses adversaires rapidement,"
-                                + "de ne plus pouvoir agir et se faire attaquer. \n"
-                                + "L'Arcaniste : il s'agit d'un être qui s'est exclusivement concentré sur les arcanes. \n"
-                                + "De nature intelligente et sage, ils combattent très peu au corps et disposent donc d'une force en dessous de la moyenne.\n"
-                                + "Cependant, ils sont entrainïés à résister au coup et de plus, ils usent d'arcanes protecteur pour se protéger durant le temps"
-                                + "d'invocations de ses Arcanes.\n"
-                                + "La Lance Rouge : des lanciers dont les coups et les arcanes sont dévastateurs, cependant, du fait d'utilisation de lance, "
-                                + "ils sont assez fragiles, sans doute les plus fragiles d'entre tous. \n"
-                                + "Le Bretteur : Des épeistes hors-pair, d'une agilité deconcertante et d'une précision phénomenale, ses coups sont précis et "
-                                + "féroces."
-                                );
-            break;
-        }
-            }
+        x.setJob(x.getJob().choixJob(choix, x));
+       }
+        x.remiseDegree();
         return x;
     }
 
@@ -240,59 +180,97 @@ public class Heros extends Personnage {
     	return null;
     }
 
-    
-    @objid ("beb4b89f-c440-4561-a009-f417f89a0815")
-    @Override
-    public String toString() {
-        return   job +" "+ super.toString()+"\nhorsLimite=" + horsLimite + ", experience=" + experience
-                        + ", niveau=" + niveau + ", creation=" + creation + ", Arcane =" + toStringTabArcaneHeros() + "]";
+    public int[] repartitionPoints(){
+    	int f = this.getForce();
+    	int i = this.getIntelligence();
+    	int c = this.getConstitution();
+    	int a = this.getAgilite();
+    	int r = this.getResistance();
+    	int[] stat = {f, i, c, a,r };
+    	return stat;
     }
     
-    public void repartitionPoints(){
-    	int pointRestant = 8;
-    	Scanner pointArentrer = new Scanner(System.in);
-    	Scanner valider =  new Scanner(System.in);
-    	do {
-    		System.out.println("Que souhaitez-vous augmenter?");
-    		int stat = pointArentrer.nextInt();
-    		switch(stat){
-	    		case 0:
-	    			System.out.println("De combien de points voulez-vous augmenter votre vie?");
-	    		int nombrePoint = pointArentrer.nextInt(); 
-	    		while(nombrePoint > pointRestant){
-	    			System.out.println("Combien de points?");
-	    			nombrePoint = pointArentrer.nextInt();
-	    			}
-	    			System.out.println("Valider?");
-	    			String validation = valider.next();
-	    			switch(validation){
-	    			case "oui": 
-	    				this.setMaxVie(this.getMaxVie()+nombrePoint);
-	    				pointRestant = pointRestant-nombrePoint; 
-	    			case "non":
-    				
-    			}
-    		}
-    	}while (pointRestant>0);
+    public void monteeStat(int stat){	
+    	switch (stat){
+    	case 0:
+    		this.setForce(this.getForce()+1);
+    		break;
+    	case 1:
+    		this.setIntelligence(this.getIntelligence()+1);
+    		break;
+    	case 2:
+    		this.setConstitution(this.getConstitution()+1);
+    		break;
+    	case 3:
+    		this.setAgilite(this.getAgilite()+1);
+    		break;
+    	case 4:
+    		this.setResistance(this.getResistance()+1);
+    		break;
+    	}
     }
     
-    public int ameliorationStatistique(int stat){
-    	return 0;
-    }
-    @objid ("05623be2-3406-4f24-9764-9f2fe13bbbfa")
-    public static void main(String[] args) {
+    public void baisseStat(int stat){
+    	switch(stat){
+    	case 0:
+    		this.setForce(this.getForce()-1);
+    		break;
+    	case 1:
+    		this.setIntelligence(this.getIntelligence()-1);
+    		break;
+    	case 2:
+    		this.setConstitution(this.getConstitution()-1);
+    		break;
+    	case 3:
+    		this.setAgilite(this.getAgilite()-1);
+    		break;
+    	case 4:
+    		this.setResistance(this.getResistance()-1);
+    		break;
+    	}
+    }  
+
+	public void remiseDegree() {
+		this.setdForce(new Degree(this.getForce()));
+		this.setdIntelligence(new Degree(this.getIntelligence()));
+		this.setdConstitution(new Degree(this.getConstitution()));
+		this.setdAgilite(new Degree(this.getAgilite()));
+		this.setdResistance(new Degree(this.getResistance()));
+		this.setDegats(new Degree(Degree.somme(this.getdForce(), this.getMainDroite().getImpactArme())));
+		this.setAttaque(new Degree(Degree.somme(this.getdAgilite(), this.getMainDroite().getManiabilite())));
+	}
+	
+	public void remiseAttaque() {
+		this.setDegats(new Degree(Degree.somme(this.getdForce(), this.getMainDroite().getImpactArme())));
+	}
+
+	public void remiseDegats() {
+		this.setAttaque(new Degree(Degree.somme(this.getdAgilite(), this.getMainDroite().getManiabilite())));
+	}
+
+ 	public String toString() {
+ 		return job + " " + super.toString() + " experience=" + experience
+ 				+ ", niveau=" + niveau + "\nArme :" + mainDroite + ", mainGauche=" + mainGauche
+ 				+ ", degats=" + this.getDegats();
+ 	}
+
+ 	public static void main(String[] args) {
         Heros[] herosOccupe = new Heros[500];
         Heros heros = new Heros();
         
         herosOccupe[1] = heros.creationPersonnage();    
-        herosOccupe[1].setExperience(100);
-        
+        herosOccupe[1].setExperience(1900);
+        @SuppressWarnings("resource")
+		Scanner scan=new Scanner(System.in);
+        scan.nextLine();
         System.out.println(herosOccupe[1].toString());
         Type baleine = new Type("Baleine" , null);
         Monstre monstre = new Monstre("Gluant", 200, 50, 30, 10,10, 14, 4, 3, baleine, 80);
    
-        
-        Combat xy = new Combat(herosOccupe[1], monstre);
+        @SuppressWarnings("unused")
+		Combat xy = new Combat(herosOccupe[1], monstre);
     }
+
+
 
 }

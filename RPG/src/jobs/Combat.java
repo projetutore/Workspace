@@ -74,55 +74,6 @@ public class Combat {
         }
     }
 
-/*    public int deroulement(Heros h, Personnage y){
-        int nbtour = 0; // initialisation du nombre de tour qui permet un bonus d'xp
-        for(nbtour = 1; (monstre.getVie()>0 && heros.getVie()>0); nbtour++){
-            System.out.println(heros.getPa());
-            
-            switch (action){
-            
-            case 1: // si le joueur tape 1, il attaque l'ennemi.
-                int degatSubitAttaque = calculDegats(heros,y);
-                monstre.setVie(monstre.getVie()-degatSubitAttaque);
-                System.out.println("Votre personnage attaque et retire "+ degatSubitAttaque+" de vie ï¿½ "+monstre.getNom() + " " + (monstre.getVie()));
-                y.getVie();
-                System.out.println("Tour :" + nbtour+ " ");
-                heros.setPa(heros.getPa()-1);// jusqu'ï¿½ ici = fonction tour joueur
-                if(monstre.getVie() <0)
-                    break;
-                int degatSubitDefense = calculDegats(y,heros);
-                heros.setVie(heros.getVie()-degatSubitDefense);
-                System.out.println("Votre personnage est attaquï¿½, il perd"+ degatSubitDefense+" de vie "+heros.getNom() + " " + ( heros.getVie() ) );
-                break;
-                
-                
-            case 3:/*en tapant 3, le joueur s'apprï¿½te ï¿½ lancer un de ses arcanes contenues 
-            dans la liste des sorts, il  a de nouveau un sort ï¿½ selectionner.
-                for(Sort i : h.getTabSortHeros())
-                    System.out.println(i);
-                action = choix.nextInt();
-                switch(action){
-                }
-                break;
-                
-            case 4:
-                this.Enchainement(heros, monstre);
-                heros.setPa(heros.getPa() -1 );
-                break;
-            }
-            
-        if (heros.getPa()<h.getPa())
-            heros.setPa(heros.getPa()+1);
-        }
-        System.out.println(nbtour);
-        if(heros.getVie()<0){
-            System.out.println("Vous avez perdu, game over!");
-            return 0;
-        }
-        h.gainExperience(calculExperience(nbtour, 40));
-        System.out.println("Votre personnage a gagnï¿½ 40 expï¿½rience son expï¿½rience est ï¿½ present de " + h.getExperience());
-        return 1;
-    }*/
 /*
  * La fonction qui calcule les dï¿½gï¿½ts prend en compte deux personnages.
  * Le personnage p1 tire un dï¿½ de 20 qui dï¿½termine le pourcentage de force en + que possï¿½dera son attaque
@@ -195,9 +146,12 @@ public class Combat {
             System.out.println( p2.getNom()+ " est attaqué par " + p1.getNom() + " et perd " + degats + ". "
                     + " Sa vie est de " + p2.getVie() + ".");
         }
-            else
+            else{
             System.out.println( p1.getNom() + " inflige " + degats + " à " + p2.getNom()+
                     "\nIl lui reste à present " + p2.getVie());
+            ((Heros) p1).setExperience(((Heros) p1).getExperience() + 10);
+            System.out.println("Experience" +((Heros) p1).getExperience());
+            }
         }
     }
 
@@ -257,7 +211,7 @@ public class Combat {
 		
 		int c=0;
 
-		do{
+		do{									
 	 		System.out.println("Choisissez un sort existant");
 
     			Scanner choix = new Scanner(System.in);
