@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="grass" tilewidth="32" tileheight="32">
+  <image source="grass.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="19" name="bridges" tilewidth="32" tileheight="32">
+  <image source="bridges.png" width="192" height="224"/>
+ </tileset>
+ <tileset firstgid="61" name="moutains" tilewidth="32" tileheight="32">
+  <image source="mountains.png" width="384" height="288"/>
+ </tileset>
+ <tileset firstgid="169" name="treetop" tilewidth="32" tileheight="32">
+  <image source="treetop.png" width="192" height="224"/>
+ </tileset>
+ <tileset firstgid="211" name="waterfall" tilewidth="32" tileheight="32">
+  <image source="waterfall.png" width="96" height="160"/>
+ </tileset>
+ <tileset firstgid="226" name="watergrass" tilewidth="32" tileheight="32">
+  <image source="watergrass.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="244" name="trunk" tilewidth="32" tileheight="32">
+  <image source="trunk.png" width="192" height="96"/>
+ </tileset>
+ <layer name="Calque de Tile 1" width="100" height="100">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3YQUoDMQCG0ewFQe9/PLFq1TM0i15goGW+mbzF2//wkQTyM8Z4YVdv09d0mf4CexjjOv3qkaFHix4terTo0aJHy5Ye74G9Z7elxxbatXqgxxk8soc7So+z0aPlWT202b8HepyNHi16tOjRokeLHi16tOjRokeLHi16tBypxwp/lEfqsQI9WvRoKfdY4b04Uo8VVXuseDbKPValR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLf/Tx73H9/Qa2LS66/R578H+LtMNMLSFYUCcAAA=
+  </data>
+ </layer>
+</map>
