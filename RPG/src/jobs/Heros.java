@@ -253,6 +253,10 @@ public class Heros extends Personnage {
  				+ ", niveau=" + niveau + "\nArme :" + mainDroite + ", mainGauche=" + mainGauche
  				+ ", degats=" + this.getDegats();
  	}
+ 	
+ 	public String pourCarte() {
+ 		return "j";
+ 	}
 
  	public static void main(String[] args) {
         Heros[] herosOccupe = new Heros[500];

@@ -6,9 +6,7 @@ import java.util.Scanner;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-@objid ("5c7f8217-f04a-40a3-9b42-6ed84ff6e0b6")
 public class Combat {
-    @objid ("7cd3477c-bdc1-417c-8774-ca885ceb71b9")
     public Combat(Heros heros, Monstre monstre) {
         // initialisation du nombre de tour pour le bonus d'Experience
         int nbtour = 0; 
@@ -39,7 +37,6 @@ public class Combat {
         return;
     }
 
-    @objid ("8a18bf43-bac5-4a41-817f-bb35b95f5c63")
     public void actionJoueur(Heros heros, Monstre monstre) {
         System.out.println("PA = " + heros.getPa());
         System.out.println(heros.getConstitution());
@@ -64,7 +61,6 @@ public class Combat {
                 }
     }
 
-    @objid ("f24efc6e-89fa-4ab3-96f0-586c583badc6")
     public void actionMonstre(Monstre monstre, Heros heros) {
         if(monstre.attaqueSelonHeros(heros) == 1){
         attaque(monstre, heros);
@@ -82,7 +78,6 @@ public class Combat {
  * Dans le cas o� la d�fense du p2 est sup�rieur � celle du p1, la fonction retourne 0, dans le cas contraire,
  * les d�gats sont ceux d'attAleatoire.
  */
-    @objid ("045dc1d7-add6-426d-8224-bcd5296287b8")
     public int calculDegats(Personnage p1, Personnage p2) {
         // le personnage p1 est celui qui attaque, le p2 celui qui defend. 
         Random random = new Random(); 
@@ -120,7 +115,6 @@ public class Combat {
         return coup ;
     }
 
-    @objid ("5bfb7dcb-7b10-4a6e-9605-76ba6f6352c6")
     public void explosion(Monstre monstre, Heros heros) {
         int explosion_m = monstre.getMaxVie()/4;
         heros.setVie(heros.getVie()-explosion_m);
@@ -131,7 +125,6 @@ public class Combat {
 /*
  * Fonction qui prend en param�tre deux personnages    
  */
-    @objid ("1e472f07-3758-445f-8374-21b7c35ce661")
     public void attaque(Personnage p1, Personnage p2) {
         int degats = calculDegats(p1, p2);
         try {
@@ -158,19 +151,16 @@ public class Combat {
 /*
      * La fonction defense augmente la constitution du personnage de 30%    
      */
-    @objid ("fcf58d0e-fee0-4f48-9ccb-36d0a6610230")
     public void defense(Personnage p) {
         p.setConstitution( p.getConstitution() + (30*p.getConstitution() / 100 ));
         System.out.println(p.getConstitution());
     }
 
-    @objid ("b3161646-b435-4e83-a23c-d3cb004b2fbf")
     public void resetDefense(Personnage p) {
         if(p.getConstitution() >= 30*p.getMaxConstitution()/100 && p.getConstitution() <=31*p.getMaxConstitution()/100);
             p.setConstitution(p.getMaxConstitution());
     }
 
-    @objid ("2bd31c1a-d3eb-4fe4-8fdf-0f9447143268")
     public void Enchainement(Personnage p1, Personnage p2) {
         int enchainementContinu = 0 ;
         while(p1.getPa()>0){
@@ -224,16 +214,13 @@ public class Combat {
     }
 
 
-	@objid ("d9fea520-8775-4eb4-aed1-0f7059db6976")
     public void calculPa(Personnage p) {
     }
 
-    @objid ("6c8f200b-690c-47ee-9e8d-8f77397b0a58")
     public int calculExperience(int nbtour, int experience) {
         return 2*experience - bonusExperience(nbtour-2, experience);
     }
 
-    @objid ("36f61c0b-9b33-41e5-aa93-d5ae7c2c809b")
     public int bonusExperience(int nbtour, int experience) {
         int experienceGagnee = (nbtour * experience)/10;
         if (experienceGagnee>experience){
