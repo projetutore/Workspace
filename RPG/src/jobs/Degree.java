@@ -55,9 +55,10 @@ public class Degree {
 	public static void main(String[] args) {
 		Degree test = new Degree(2,4);
 		Degree test2 = new Degree(2,4);
+		Degree test4 = new Degree(8,8);
 		System.out.println(test);
 		System.out.println(test2);
-		System.out.println(Degree.somme(test, test2));
+		System.out.println(Degree.somme(test, test4));
 	}
 
 }

@@ -13,5 +13,14 @@ public abstract class Objet {
 	public String toString() {
 		return nomObjet;
 	}
+
+	public String getNomObjet() {
+		return nomObjet;
+	}
+
+	public void setNomObjet(String nomObjet) {
+		this.nomObjet = nomObjet;
+	}
 	
+
 }

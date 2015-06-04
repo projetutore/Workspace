@@ -12,9 +12,10 @@ public abstract class Personnage {
     private Degree dResistance;
     private Degree attaque;
     private Degree degats;
+    private Degree degatsM;
 
-    public Personnage() {
-        this.nom = "Inconnu";
+    public Personnage(){
+    	this.nom = "Inconnu";
     }
 
 
@@ -198,24 +199,40 @@ public abstract class Personnage {
 		this.degats = degats;
 	}
 
+	public Degree getDegatsM() {
+		return degatsM;
+	}
+
+
+	public void setDegatsM(Degree degatsM) {
+		this.degatsM = degatsM;
+	}
+
+
 	public int getMaxMana() {
 		return maxMana;
 	}
 	
 	public abstract void remiseAttaque();
 	public abstract void remiseDegats();
+	public abstract void remiseDegatsM();
 	public abstract void remiseDegree();
 	
     public String toString() {
-        return  nom + ", Vie=" + maxVie + ", mana=" + maxMana
-                        + ", force=" + force + " ("+dForce+")\n" + ", intelligence=" + intelligence
-                        + ", agilite=" + agilite + ", constitution=" + constitution
-                        + ", pa=" + pa + "/"+maxPa;
+        return  nom + "\nVIE:" + maxVie + ", MANA:" + maxMana +
+        		" FOR: " + force + " INT: " + intelligence
+                + " AGI: " + agilite +  " CONS: " + constitution
+                + " RES: " + resistance + "\nPA:" + pa + "/"+maxPa;
     }
     
     public String toStringCaracteristique(){
     	return "FOR : " + force + "   INT : " + intelligence
-        + "\nAGI : " + agilite +  "    CON : " + constitution
+        + "\nAGI : " + agilite +  "    CONS : " + constitution
         + "\nRES : " + resistance;
+    }
+    
+ 	public static void main(String[] args) {
+        Heros paris = new Heros();
+    	System.out.println(paris);
     }
 }

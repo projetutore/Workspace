@@ -136,6 +136,12 @@ public class Arcane {
     public void coutMana_Niv(Heros h){
     	this.degatsArcane = h.getNiveau(); 
     }
+ 
+    /*
+    public boolean equals(Object x){
+    	return ((if((this.nomArcane).equals(Arcane)x).nomArcane));
+    }
+    */
 	@Override
 	public String toString() {
 		return  nomArcane + ", degatsArcane="

@@ -2,7 +2,7 @@ package carte;
 
 import java.util.Random;
 
-public class Monstres {
+public class Monstres implements Elements {
 	
 	//Attributs
 	
@@ -44,7 +44,7 @@ public class Monstres {
 	
 	
 	
-	public int attaquer(){ //Toute attaque renvoie 5pts de dŽgats
+	public int attaquer(){ //Toute attaque renvoie 5pts de dï¿½gats
 		//return 5;
 		Random rand = new Random();
 		int d = rand.nextInt(force)+1;
@@ -54,6 +54,11 @@ public class Monstres {
 	//Surchage
 	
 	public String toString(){
+		return "M";
+	}
+	@Override
+	public String afficherm() {
+		// TODO Auto-generated method stub
 		return "Vie du monstre = " + vie +"\nForce = "  + force;
 	}
 	

@@ -156,7 +156,7 @@ public class FichePerso extends JFrame{
 		BoutonMoinsListener retirer = new BoutonMoinsListener();
 		car[0] = new JLabel(" For : " + this.myHeros.getForce()  + " (+" + f + ") " + "( "+ this.myHeros.getdForce() + ")");
 		car[1] = new JLabel(" Int : " + this.myHeros.getIntelligence()  + " (+" + i + ") "  + "( "+ this.myHeros.getdIntelligence() + ")");
-		car[2] = new JLabel(" Con : " + this.myHeros.getConstitution()  + " (+" + c + ") "  + "( "+ this.myHeros.getdConstitution() + ")");
+		car[2] = new JLabel(" Cons : " + this.myHeros.getConstitution()  + " (+" + c + ") "  + "( "+ this.myHeros.getdConstitution() + ")");
 		car[3] = new JLabel(" Agi : " + this.myHeros.getAgilite()  + " (+" + a + ") "  + "( "+ this.myHeros.getdAgilite() + ")");
 		car[4] = new JLabel(" Res : " + this.myHeros.getResistance()  + " (+" + r + ") " + "( "+ this.myHeros.getdResistance() + ")");
 		pts = new JLabel(ptsRestant+"", SwingConstants.CENTER);
@@ -235,7 +235,7 @@ public class FichePerso extends JFrame{
 		myHeros.remiseDegree();
 		car[0].setText(" For : " + myHeros.getForce() + " (+" + f + ") "  + "( "+ this.myHeros.getdForce() + ")");
 		car[1].setText(" Int : " + myHeros.getIntelligence()  + " (+" + i + ") " + "( "+ this.myHeros.getdIntelligence() + ")");
-		car[2].setText(" Con : " + myHeros.getConstitution()  + " (+" + c + ") "  + "( "+ this.myHeros.getdConstitution() + ")");
+		car[2].setText(" Cons : " + myHeros.getConstitution()  + " (+" + c + ") "  + "( "+ this.myHeros.getdConstitution() + ")");
 		car[3].setText(" Agi : " + myHeros.getAgilite()  + " (+" + a + ") "  + "( "+ this.myHeros.getdAgilite() + ")" );
 		car[4].setText(" Res : " + myHeros.getResistance() + " (+" + r + ") "  + "( "+ this.myHeros.getdResistance() + ")");
 		identitePerso.setText("\nNom: "+ this.myHeros.getNom()+ "\nClasse: "

@@ -34,6 +34,8 @@ public class Type {
 		this.tabArcaneMonstre = tabArcaneMonstre;
 	}
     
-
+	public boolean equals(Object type){
+		return this.nomType.equals(((Type) type).nomType);
+	}
 
 }

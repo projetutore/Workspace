@@ -2,29 +2,34 @@ package carte;
 
 import java.util.*;
 
-public class Carte {
+import jobs.Heros;
+import jobs.Monstre;
+
+public class Carte{
 	
 	//Attrubuts
 	private int nbLig;
 	private int nbCol;
-	private char [][] grille;
+	private Object [][] grille;
+	private String s = ".";
+	private String mur = "#";
 	
 	//Constructeur
 	public Carte(int n, int p){
 		nbLig = n;
 		nbCol = p;
-		grille = new char [nbLig][nbCol];
+		grille = new Object [nbLig][nbCol];
 		
 		for(int i = 0; i < nbLig; i++){
 			for(int j = 0; j<nbCol; j++){
 				
-				grille[i][j] = '.';
+				grille[i][j] = s;
 				
 			}
 		}
 	}
 	//Accesseurs
-	public char getCase(int l, int c){
+	public Object getCase(int l, int c){
 		return grille[l-1][c-1];
 	}
 	
@@ -42,7 +47,7 @@ public class Carte {
 		System.out.println();
 	}
 	
-	public void placer(int l, int c, char t ){
+	public void placer(int l, int c, Elements t ){
 		
 		l = l-1;
 		c = c-1;
@@ -51,11 +56,11 @@ public class Carte {
 			System.out.print("ERREUR de placement !");
 			return;
 		}
-		if (grille[l][c] == '.'){
-			grille[l][c] = t;
+		if (grille[l][c] ==  s ){
+			grille[l][c] =  t;
 		}
 		else {
-			System.out.print("ERREUR, cet zone n'est pas vide !");
+			System.out.print("ERREUR, cet zone n'est pas s !");
 
 		}
 			
@@ -63,79 +68,102 @@ public class Carte {
 	}
 	//Deplacer
 	public int deplacerHaut(){
-		char tmp;
+		Object tmp;
+		try{
 		for(int i = 0; i < nbLig; i++){
 			for(int j = 0; j<nbCol; j++){
 			
-				if(grille[i][j] == 'J'){//on cherche le joueur
-					if(i-1 >= 0 && grille[i-1][j] == '.' ){//on teste la position
+				if(grille[i][j] instanceof Heros){//on cherche le joueur
+					if(i-1 >= 0 && grille[i-1][j] == s ){//on teste la position
 						tmp = grille[i][j]; //On copie le perso
-						grille[i][j] = '.';//on vide la case 
+						grille[i][j] = s;//on s la case 
 						grille[i-1][j] = tmp;//on deplace le perso
+						this.Afficher();
 						return 1;
 					}
-					if (i-1 >= 0 && grille[i-1][j] == 'M'){
+					if (i-1 >= 0 && grille[i-1][j] instanceof Monstre){
 						tmp = grille[i][j]; 
-						grille[i][j] = '.'; 
+						grille[i][j] = s; 
 						grille[i-1][j] = tmp;
+						this.Afficher();
 						return 2;
 					}		
 				}
 			}		
 		}
+		}catch (ArrayIndexOutOfBoundsException e){
+			System.out.println("Impossible de se deplacer ici");
+		}
+	
 		return 0;
 	}
 	
 	public void deplacerBas(){
-		char tmp;
+		Object tmp;
+		try{
 		for(int i = 0; i < nbLig; i++){
 			for(int j = 0; j<nbCol; j++){
 			
-				if(grille[i][j] == 'J'){//on cherche le joueur
-					if(i+1 <= nbLig && grille[i+1][j] =='.' ){//on teste la position
+				if(grille[i][j] instanceof Heros){//on cherche le joueur
+					if(i+1 <= nbLig && grille[i+1][j] == s ){//on teste la position
 						tmp = grille[i][j]; //On copie le perso
-						grille[i][j] = '.';//on vide la case 
 						grille[i+1][j] = tmp;//on deplace le perso
+						grille[i][j] = s;//on s la case 
+						this.Afficher();
 						return;
 					}		
 				}
 			}		
 		}
+		}catch (ArrayIndexOutOfBoundsException e){
+			System.out.println("Impossible de se deplacer ici");
+		}
 	
 	}
 	
 	public void deplacerGauche(){
-		char tmp;
+		Object tmp;
+		try{
 		for(int i = 0; i < nbLig; i++){
 			for(int j = 0; j<nbCol; j++){
 			
-				if(grille[i][j] == 'J' && grille[i][j-1] == '.'){//on cherche le joueur
+				if(grille[i][j] instanceof Heros && grille[i][j-1] == s){//on cherche le joueur
 					if(i-1 >= 0){//on teste la position
 						tmp = grille[i][j]; //On copie le perso
-						grille[i][j] = '.';//on vide la case 
+						grille[i][j] = s;//on s la case 
 						grille[i][j-1] = tmp;//on deplace le perso
-				
+						this.Afficher();
+
 					}		
 				}
 			}		
+		}
+		}catch (ArrayIndexOutOfBoundsException e){
+			System.out.println("Impossible de se deplacer ici");
 		}
 	
 	}
 	
 	public void deplacerDroite(){
-		char tmp;
+		Object tmp;
+		try{
 		for(int i = 0; i < nbLig; i++){
 			for(int j = 0; j<nbCol; j++){
 			
-				if(grille[i][j] == 'J' && grille[i][j+1] == '.' ){//on cherche le joueur
+				if(grille[i][j] instanceof Heros && grille[i][j+1] == s ){//on cherche le joueur
 					if(i+1 <= nbCol){//on teste la position
 						tmp = grille[i][j]; //On copie le perso
-						grille[i][j] = '.';//on vide la case 
+						grille[i][j] = s;//on s la case 
 						grille[i][j+1] = tmp;//on deplace le perso
+						this.Afficher();
+
 						break;
 					}		
 				}
 			}		
+		}
+		}catch (ArrayIndexOutOfBoundsException e){
+			System.out.println("Impossible de se deplacer ici");
 		}
 	
 	}
