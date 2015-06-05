@@ -1,6 +1,8 @@
 package jobs;
 
-public class Job {
+import java.io.Serializable;
+
+public class Job implements Serializable{
     private String nomJob;
 
     private Arcane[] ArcaneDeJob;

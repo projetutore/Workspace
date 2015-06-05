@@ -1,6 +1,8 @@
 package jobs;
 
-public class Degree {
+import java.io.Serializable;
+
+public class Degree implements Serializable {
 
 	/**
 	 * Le Degree est fait de deux parties:
@@ -13,8 +15,8 @@ public class Degree {
 	int reste; 
 	private static final int BASE = 7;
 	
-	public Degree(){
-	}
+	public Degree(){}
+	
 	public Degree(int stat){
 		this.des = stat/BASE;
 		this.reste = stat%BASE;
@@ -31,6 +33,8 @@ public class Degree {
 	}
 
 	public String toString(){
+		if(this.equals(new Degree()))
+			return "0";
 		return des+"D+"+reste;
 	}
 	
@@ -40,6 +44,15 @@ public class Degree {
 		somme.setReste(a.getReste()+b.getReste());
 		return somme;
 	}
+	
+	public boolean equals(Object o){
+		Degree lambda = (Degree) o;
+		if(this.des == lambda.getDes() && this.reste == lambda.getReste())
+				return true;
+		return false;
+	}
+	
+	
 	public int getDes() {
 		return des;
 	}
@@ -54,7 +67,7 @@ public class Degree {
 	}
 	public static void main(String[] args) {
 		Degree test = new Degree(2,4);
-		Degree test2 = new Degree(2,4);
+		Degree test2 = new Degree();
 		Degree test4 = new Degree(8,8);
 		System.out.println(test);
 		System.out.println(test2);

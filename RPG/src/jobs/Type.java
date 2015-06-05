@@ -1,6 +1,8 @@
 package jobs;
 
-public class Type {
+import java.io.Serializable;
+
+public class Type implements Serializable {
     private String nomType;
 
     private Arcane[] tabArcaneMonstre;

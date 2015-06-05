@@ -2,30 +2,32 @@ package Objets;
 
 import jobs.Degree;
 
-public class EpeeLourde implements Arme {
-	private String nomEpeeLourde; 
-	private Degree impactEpeeLourde;
+public class Lance implements Arme {
+
+	private String nomLance; 
+	private Degree impactLance;
 	private Degree maniabilite;
 	private String description;
-	private int portee = 1 ; 
-	private int nombreMain = DEUXMAINS ;
+	private int portee = 2 ; 
+	private int nombreMain = UNEMAIN ;
 
 	
-	public EpeeLourde(String nomEpeeLourde, Degree impactEpeeLourde, Degree maniabilite, String description) throws ExceptionArme {
-		this.nomEpeeLourde = nomEpeeLourde;
-		this.impactEpeeLourde = impactEpeeLourde; 
+	public Lance(String nomLance, Degree impactLance, Degree maniabilite, String description) throws ExceptionArme {
+		this.nomLance = nomLance;
+		this.impactLance = impactLance; 
 		this.maniabilite = maniabilite;
+		this.description = description;
 	}
 
 	@Override
 	public String getNomObjet() {
-		return nomEpeeLourde;
+		return nomLance;
 	}
 
 	@Override
 	public Degree getImpactArme() {
 		// TODO Auto-generated method stub
-		return impactEpeeLourde;
+		return impactLance;
 	}
 
 	@Override
@@ -58,7 +60,7 @@ public class EpeeLourde implements Arme {
 	@Override
 	public String affichageCaracteristique() {
 		// TODO Auto-generated method stub
-		return  nomEpeeLourde +"\nImpactArme: "+ impactEpeeLourde + "; Maniabilite:"+ maniabilite +"\nPortee = " + portee
+		return  nomLance +"\nImpactArme: "+ impactLance + "; Maniabilite:"+ maniabilite +"\nPortee = " + portee
 				+ "; NombreMain = " + nombreMain;
 	}
 
@@ -72,4 +74,5 @@ public class EpeeLourde implements Arme {
 		// TODO Auto-generated method stub
 		return "Main";
 	}
+
 }

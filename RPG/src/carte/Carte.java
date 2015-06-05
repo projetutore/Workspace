@@ -1,18 +1,20 @@
 package carte;
 
+import java.io.Serializable;
 import java.util.*;
 
+import sauvegarde.SauvegardeJeu;
 import jobs.Heros;
 import jobs.Monstre;
 
-public class Carte{
+public class Carte implements Serializable{
 	
 	//Attrubuts
 	private int nbLig;
 	private int nbCol;
 	private Object [][] grille;
-	private String s = ".";
-	private String mur = "#";
+	private Elements s = new PtsCarte(".");
+	private Elements mur = new PtsCarte("#");
 	
 	//Constructeur
 	public Carte(int n, int p){
@@ -166,5 +168,54 @@ public class Carte{
 			System.out.println("Impossible de se deplacer ici");
 		}
 	
+	}
+	public void deplacement(){
+		int i = 0;
+		while(i!=-1){
+		
+		System.out.println("Vers o� voulez vous deplacer ?\n(1 = gauche, 2 = bas, 3 = droite, 5 = haut)");
+		Scanner scan = new Scanner(System.in);
+		int nb = 0;
+		try{
+		nb = scan.nextInt();
+		}catch (InputMismatchException e){
+			System.out.println("Rentrer un autre chiffre");
+		}
+
+		switch (nb){
+		case 5: this.deplacerHaut();
+
+	
+			/*System.out.println("D�but du combat...");
+			while(p1.getVie() > 0 && m1.getVie() > 0 ){
+				System.out.println("Caract�ristique de l'adversaire :");
+				System.out.println(m1.toString());
+				System.out.println("Vos caract�ristiques : ");
+				System.out.println(p1.toString());
+				System.out.println("Vous lancer une attaque !");
+				m1.setVie(m1.getVie() - p1.attaquer()); 
+				System.out.println("Vous vous faite attaquer !");
+				p1.setVie(p1.getVie() - m1.attaquer());
+				
+					for(int j = 0; j < 1; j++){
+						System.out.println("\n  \n");
+					}
+			}
+			System.out.println("Fin du combat...");*/
+		break;
+		case 2: this.deplacerBas();
+
+		break;
+		case 1: this.deplacerGauche();
+
+		break;
+		case 3: this.deplacerDroite();
+		break;
+		case 8: return;
+		default: System.out.println("mauvais chiffre");
+		}
+		
+		i++;
+		}
 	}
 }

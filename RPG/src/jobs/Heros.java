@@ -6,6 +6,7 @@ import Objets.Baton;
 import Objets.EpeeLegere;
 import Objets.EpeeLourde;
 import Objets.ExceptionArme;
+import Objets.Main;
 import Objets.Objet;
 
 import java.util.InputMismatchException;
@@ -72,8 +73,8 @@ public class Heros extends Personnage implements Elements {
      * @see Heros#equiper(Arme)
      */
     
-    public static final Arme DEFAULT_MAINDROITE = new Arme("MainDroite", 0, 0, null, 1); 
-    public static final Arme DEFAULT_MAINGAUCHE = new Arme("Maingauche", 0, 0, null, 1);
+    public static final Arme DEFAULT_MAINDROITE = new Main("MainDroite"); 
+    public static final Arme DEFAULT_MAINGAUCHE = new Main("Maingauche");
     
     private Arme mainDroite = DEFAULT_MAINDROITE;
     private Arme mainGauche = DEFAULT_MAINGAUCHE;
@@ -224,53 +225,57 @@ public class Heros extends Personnage implements Elements {
 	}
 
 	public void equiper(Objet equipement){
-		switch(equipement.getClass().getSuperclass().getSimpleName()){
-		case "Arme":
+		
+		switch(equipement.emplacementEquipement()){
+		case "Main":
 			Arme arme_equip = (Arme) equipement;
-			Scanner scanner = new Scanner(System.in);
-			int choixEquipement;
-			if(arme_equip.getNombreMain()==2){
-				System.out.println("Etes-vous sur de vouloir remplacer : "+ mainDroite + " et " + mainGauche + " ?"
-						+ "\n1-Equiper \n 2-Annuler" );
-				choixEquipement = scanner.nextInt();
-				while(choixEquipement!=1 && choixEquipement!=2){
-					System.out.println("Choisissez entre 1 et 2");
-					choixEquipement = scanner.nextInt();
-				}
-				switch(choixEquipement){
-					case 1: 
-					this.setMainDroite(arme_equip);
-					break;
-					case 2:
-					return;
-				}
-			}
-			else{
-
-			System.out.println("Dans quelle main souhaitez-vous équiper votre arme? \n1- Main Droite " + mainDroite + "\n2- Main Gauche " + mainGauche);
+			this.equipementArme(arme_equip);	
+		case "Torse":
+		}
+		this.remiseDegree();
+	}
+	
+	public void equipementArme(Arme arme_equip){
+		Scanner scanner = new Scanner(System.in);
+		int choixEquipement;
+		if(arme_equip.getNombreMain()==2){
+			System.out.println("Etes-vous sur de vouloir remplacer : \n"+ mainDroite.affichageCaracteristique() + " et " 
+		    + mainGauche.affichageCaracteristique()	+ " ?" + "\n1-Equiper \n2-Annuler" );
 			choixEquipement = scanner.nextInt();
 			while(choixEquipement!=1 && choixEquipement!=2){
 				System.out.println("Choisissez entre 1 et 2");
-				scanner.nextInt();
-			}
-			if(mainDroite.getNombreMain()==2 || mainGauche.getNombreMain()==2){
-				mainDroite = DEFAULT_MAINDROITE ;
-				mainGauche = DEFAULT_MAINGAUCHE;
+				choixEquipement = scanner.nextInt();
 			}
 			switch(choixEquipement){
-			case 1:
+				case 1: 
 				this.setMainDroite(arme_equip);
 				break;
-			case 2:
-				this.setMainGauche(arme_equip);
-				break;
-				}
+				case 2:
+				return;
 			}
-			break;
-		case "Armure":
-			
 		}
-		this.remiseDegree();
+		else{
+
+		System.out.println("Dans quelle main souhaitez-vous équiper votre arme? \n1- Main Droite :" + mainDroite.affichageCaracteristique()
+				+ "\n\n"+ "2- Main Gauche :" + mainGauche.affichageCaracteristique());
+		choixEquipement = scanner.nextInt();
+		while(choixEquipement!=1 && choixEquipement!=2){
+			System.out.println("Choisissez entre 1 et 2");
+			scanner.nextInt();
+		}
+		if(mainDroite.getNombreMain()==2 || mainGauche.getNombreMain()==2){
+			mainDroite = DEFAULT_MAINDROITE ;
+			mainGauche = DEFAULT_MAINGAUCHE;
+		}
+		switch(choixEquipement){
+		case 1:
+			this.setMainDroite(arme_equip);
+			break;
+		case 2:
+			this.setMainGauche(arme_equip);
+			break;
+			}
+		}
 	}
 	
     public void niveauSuperieur() {
@@ -294,13 +299,13 @@ public class Heros extends Personnage implements Elements {
      * @return une instance de Heros qui sera le nouvel héros crée.
      * @since 1.0
      */
-    public Heros creationPersonnage() {
+    public static Heros creationPersonnage() {
         System.out.println("Vous voici à l'heure de la création de votre personnage\n "+
                 "Tout d'abord, comment vous appelerez vous?");
         @SuppressWarnings("resource")
-        Scanner creationPersonnage = new Scanner(System.in);
+        Scanner creation = new Scanner(System.in);
         Heros x = new Heros();
-        x.setNom(creationPersonnage.nextLine());
+        x.setNom(creation.nextLine());
         while(x.getJob().getNomJob()=="Classe"){
         System.out.println("Je vois, c'est donc comme cela que vous avez décidé de vous appelez.\n" +
                             "A présent, il est temps de décider de votre classe : \n"
@@ -310,7 +315,7 @@ public class Heros extends Personnage implements Elements {
                             + "4 - Lance Rouge \n"
                             + "5 - Bretteur \n"
                             );
-        int choix = creationPersonnage.nextInt();
+        int choix = creation.nextInt();
         x.setJob(x.getJob().choixJob(choix, x));
        }
         x.setArcaneHeros(0);
@@ -401,7 +406,6 @@ public class Heros extends Personnage implements Elements {
 	public void remiseDegatsM() {
 		
 		Degree sommeImpactM = new Degree();
-		
 		if(mainDroite.getNombreMain()==2){
 			this.setDegatsM(Degree.somme(this.getdIntelligence(), mainDroite.getImpactMagique()));
 		}
@@ -417,46 +421,20 @@ public class Heros extends Personnage implements Elements {
 			this.setDegatsM(Degree.somme(this.getdIntelligence(), mainGauche.getImpactMagique()));
 		}
 		else
-			this.setDegatsM(this.getdIntelligence());
-		/*
-		if(mainDroite.getClass().getSimpleName().equals("Baton") 
-				&& mainGauche.getClass().getSimpleName().equals("Baton")){
-			Degree sommeImpactM = Degree.somme(((Baton) mainDroite).getImpactMagique(), ((Baton) mainGauche).getImpactMagique());
-			this.setDegatsM(Degree.somme(this.getdIntelligence(), sommeImpactM));
-		}
-		else if(mainDroite.getClass().getSimpleName().equals("Baton"))
-				this.setDegatsM(Degree.somme(this.getdIntelligence(), ((Baton) this.getMainDroite()).getImpactMagique()));
-		else if(mainGauche.getClass().getSimpleName().equals("Baton")) 
-				this.setDegatsM(Degree.somme(this.getdIntelligence(), ((Baton) this.getMainGauche()).getImpactMagique()));
-		else
-				this.setDegatsM(this.getdIntelligence());
-		*/
+			this.setDegatsM(this.getdIntelligence());	
 	}
-		
-	/*
-	 * if(mainDroite.getClass().getSuperclass().getSimpleName().equals("Baton") 
-				&& mainDroite.getClass().getSuperclass().getSimpleName().equals("Baton")){
-			Degree sommeImpactM = Degree.somme(((Baton) mainDroite).getImpactMagique(), ((Baton) mainGauche).getImpactMagique());
-			this.setDegatsM(Degree.somme(this.getdIntelligence(), sommeImpactM));
-		}
-		else if(mainDroite.getClass().getSuperclass().getSimpleName().equals("Baton"))
-				this.setDegatsM(Degree.somme(this.getdIntelligence(), ((Baton) this.getMainDroite()).getImpactMagique()));
-		else if(mainGauche.getClass().getSuperclass().getSimpleName().equals("Baton")) 
-				this.setDegatsM(Degree.somme(this.getdIntelligence(), ((Baton) this.getMainGauche()).getImpactMagique()));
-		else
-				this.setDegatsM(this.getdIntelligence());
-	 */
 	
-
- 	public String stringStats() {
- 		return job + " " + super.toString() + " experience: " + experience
- 				+ " niveau: " + niveau + "\nArme :" + mainDroite + ", mainGauche=" + mainGauche
- 				+ ", degats=" + this.getDegats();
- 	}
- 	
  	public String toString() {
  		return "H";
  	}
+
+ 	@Override
+	public String affichageCaracteristique() {
+		// TODO Auto-generated method stub
+		 return job + " " + super.toString() + " experience: " + experience
+ 				+ " niveau: " + niveau + "\nArme :" + mainDroite + ", mainGauche=" + mainGauche
+ 				+ ", degats=" + this.getDegats();
+	}
 
  	public Arcane Arcane() {
 		int i = 0;
@@ -480,9 +458,8 @@ public class Heros extends Personnage implements Elements {
  	public static void main(String[] args) {
  		
         Heros[] herosOccupe = new Heros[500];
-        Heros heros = new Heros();
         
-        herosOccupe[1] = heros.creationPersonnage();    
+        herosOccupe[1] = Heros.creationPersonnage();    
       /*  herosOccupe[1].setExperience(1900);
         Scanner scan=new Scanner(System.in);
         scan.nextLine();
@@ -508,29 +485,15 @@ public class Heros extends Personnage implements Elements {
 			e.printStackTrace();
 		}
 		
-		BaguetteMagique nouvelle = null;
-		try{
-			nouvelle = new BaguetteMagique("Nouvelle", x, z , y, "");
-		}catch(ExceptionArme e2){
-			e2.printStackTrace();
-		}
-		
-		herosOccupe[1].equiper(nouvelle);
-		
-		System.out.println(herosOccupe[1].getDegatsM());
-
 		herosOccupe[1].equiper(epeeLegere);
-		System.out.println(herosOccupe[1].getDegatsM());
+		
+
+
     
     }
 
 
-	@Override
-	public String afficherm() {
-		// TODO Auto-generated method stub
-		return "j";
-	}
-
+	
 
 	
 }

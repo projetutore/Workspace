@@ -1,26 +1,11 @@
 package Objets;
 
-public abstract class Objet {
+import carte.Elements;
 
-	private String nomObjet;
+public interface Objet extends Elements{
 
-	public Objet(String nomObjet) {
-		super();
-		this.nomObjet = nomObjet;
-	}
-
-	@Override
-	public String toString() {
-		return nomObjet;
-	}
-
-	public String getNomObjet() {
-		return nomObjet;
-	}
-
-	public void setNomObjet(String nomObjet) {
-		this.nomObjet = nomObjet;
-	}
-	
-
+	public String getNomObjet();
+	public String toString();
+	public String affichageCaracteristique();
+	public String emplacementEquipement();
 }

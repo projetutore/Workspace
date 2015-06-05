@@ -1,7 +1,9 @@
 package jobs;
 
+import java.io.Serializable;
 
-public class Effet {
+
+public class Effet implements Serializable {
     private String nomEffet;
 
     private int degatsEffet;

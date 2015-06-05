@@ -1,7 +1,10 @@
 package carte;
 
-public interface Elements {
-	
-	public String afficherm();
+import java.io.Serializable;
 
+public interface Elements extends Serializable {
+	
+	public String toString();
+
+	public String affichageCaracteristique();
 }

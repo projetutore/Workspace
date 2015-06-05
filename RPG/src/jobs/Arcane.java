@@ -1,10 +1,11 @@
 package jobs;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 
 
-public class Arcane {
+public class Arcane implements Serializable {
     private String nomArcane;
 
     private int degatsArcane;
