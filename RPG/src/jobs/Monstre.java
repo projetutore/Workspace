@@ -95,39 +95,24 @@ public class Monstre extends Personnage implements Elements {
 				System.out.println("\n");
 	}
 	
-	public static void ajoutMonstreType() throws PersonnageCarException{
-		Type bombo = new Type("Bombo",null);
-		Type ogre = new Type("Ogre", null);
+	public static ArrayList<Monstre> ajoutMonstreType() throws PersonnageCarException{
+		Type bombo = new Bombo();
 		ArrayList <Monstre> monstreCollec = new ArrayList<Monstre>();
 		ArrayList <Monstre> bomboCollec = new ArrayList<Monstre>();
 		ArrayList <Monstre> ogreCollec =new ArrayList<Monstre>();
 		Monstre bomboFeu =  new Monstre("Bombo de Feu", 200, 100, 4, 12, 14, 8, 6, 10, bombo, 20);
 		Monstre grandBomboFeu = new Monstre("Grand Bombo de Feu", 200, 100, 5, 12, 14, 8, 6, 10, bombo, 20);
-		Monstre ogreJeune = new Monstre("Jeune Ogre", 50, 25, 4, 8,6,8, 12, 8, ogre, 20);
-		Monstre ogreAdulte = new Monstre("Ogre Adulte", 100, 50, 8, 16, 12, 16, 24, 16, ogre, 50);
 		bomboCollec.add(bomboFeu);
 		bomboCollec.add(grandBomboFeu);
-		ogreCollec.add(ogreJeune);
 	//	Monstre.afficheCollectionMonstre(bomboCollec);
 	//	Monstre.afficheCollectionMonstre(ogreCollec);
-		ogreCollec.add(1, ogreAdulte);
 	//	Monstre.afficheCollectionMonstre(bomboCollec);
 		monstreCollec.addAll(ogreCollec);
 		monstreCollec.addAll(0,bomboCollec);
 	//	Monstre.afficheCollectionMonstre(monstreCollec);
 		Monstre bomboGeant= new Monstre("Bombo Geant", 1000, 400, 40,20,20,15,20, 40, bombo, 100);
-		monstreCollec.set(0, bomboGeant);
-		monstreCollec.get(0);
-		Heros a = new Heros();
-	//Monstre.afficheCollectionMonstre(monstreCollec);
-		ListIterator<Monstre> i = monstreCollec.listIterator();
-		System.out.println(monstreCollec.isEmpty());
-			while(i.hasNext()){
-				if(i.next().getType().equals(ogre)){
-					i.remove();
-			}
-				Monstre.afficheCollectionMonstre(monstreCollec);
-		}
+
+		return bomboCollec;
 	}
 	
 	public static void main(String args[]){
@@ -140,11 +125,10 @@ public class Monstre extends Personnage implements Elements {
 	@Override
 	public void remiseDegatsM() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public String afficherm() {
+	public String affichageCaracteristique() {
 		// TODO Auto-generated method stub
 		return null;
 	}

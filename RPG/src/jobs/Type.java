@@ -1,43 +1,13 @@
 package jobs;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Type implements Serializable {
-    private String nomType;
-
-    private Arcane[] tabArcaneMonstre;
+public interface Type extends Serializable {
     
-    public Type(){
-    	this.nomType = "";
-    }
+	public String getNomType();
 
-    public Type(String nomType, Arcane[] tabArcaneMonstre){
-    	this.nomType = nomType;
-    	this.tabArcaneMonstre = tabArcaneMonstre;
-    }
-    
-    public Type(Type t){
-    	this.nomType = new String(t.getNomType());
-    	this.tabArcaneMonstre = t.getTabArcaneMonstre();
-    }
-	public String getNomType() {
-		return nomType;
-	}
+	public ArrayList<Arcane> getTabArcaneMonstre() ;
 
-	public void setNomType(String nomType) {
-		this.nomType = nomType;
-	}
-
-	public Arcane[] getTabArcaneMonstre() {
-		return tabArcaneMonstre;
-	}
-
-	public void setTabArcaneMonstre(Arcane[] tabArcaneMonstre) {
-		this.tabArcaneMonstre = tabArcaneMonstre;
-	}
-    
-	public boolean equals(Object type){
-		return this.nomType.equals(((Type) type).nomType);
-	}
-
+	
 }

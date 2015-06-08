@@ -15,7 +15,10 @@ public class Degree implements Serializable {
 	int reste; 
 	private static final int BASE = 7;
 	
-	public Degree(){}
+	public Degree(){
+		this.des = 0;
+		this.reste=0;
+	}
 	
 	public Degree(int stat){
 		this.des = stat/BASE;
@@ -33,8 +36,6 @@ public class Degree implements Serializable {
 	}
 
 	public String toString(){
-		if(this.equals(new Degree()))
-			return "0";
 		return des+"D+"+reste;
 	}
 	
@@ -45,6 +46,18 @@ public class Degree implements Serializable {
 		return somme;
 	}
 	
+	public static Degree soustraction(Degree a, Degree b){
+		Degree somme = new Degree();
+		somme.setDes((a.getDes())-(b.getDes()));
+		somme.setReste(a.getReste()-b.getReste());
+		if(somme.des<0){
+			somme = new Degree();
+		}
+		else if(somme.reste<0){
+			somme= new Degree(somme.des, 0);
+		}
+		return somme;
+	}
 	public boolean equals(Object o){
 		Degree lambda = (Degree) o;
 		if(this.des == lambda.getDes() && this.reste == lambda.getReste())
@@ -67,11 +80,12 @@ public class Degree implements Serializable {
 	}
 	public static void main(String[] args) {
 		Degree test = new Degree(2,4);
-		Degree test2 = new Degree();
+		Degree test2 = null;
 		Degree test4 = new Degree(8,8);
 		System.out.println(test);
 		System.out.println(test2);
 		System.out.println(Degree.somme(test, test4));
+		System.out.println(test.equals(null));
 	}
 
 }

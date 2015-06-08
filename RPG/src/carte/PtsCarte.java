@@ -23,4 +23,15 @@ public class PtsCarte implements Elements {
 		this.affichage = affichage;
 	}
 
+	@Override
+	public String affichageCaracteristique() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public static void main(String args[]){
+		PtsCarte mur = new PtsCarte("#");
+		System.out.println(mur);
+	}
+
 }

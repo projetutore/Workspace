@@ -25,15 +25,20 @@ public class main {
 		
 		//c1.placer(8, 2, 'O');		c1.placer(7, 4, 'O');		c1.placer(2, 8, 'O');
 		
-		c1.placer(2, 5, new Monstre());		c1.placer(10, 7, new Monstre());		c1.placer(11, 2, new Monstre());
+		//c1.placer(2, 5, new Monstre());		c1.placer(10, 7, new Monstre());		c1.placer(11, 2, new Monstre());
 
+		int j = 0;
+		while(j<5){
+		c1.placementAleatoire();
+		j++;
+		}
 		//Affichage
 		System.out.println("J = joueur\nO = objet\nM = monstre\n. = vide");
 		c1.Afficher();
 		
 		Heros p1 = new Heros();
-		System.out.println("Caract�ristique de votre Heros :");
-		System.out.println(p1.toString());
+		System.out.println("Caractéristique de votre Heros :");
+		System.out.println(p1.affichageCaracteristique());
 		
 		Monstre m1 = new Monstre();
 		

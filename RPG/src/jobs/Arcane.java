@@ -18,8 +18,6 @@ public class Arcane implements Serializable {
 
     private String description;
 
-    private int dureeIncantation;
-
     private String ratio;
     
     private Effet[] effetArcane = new Effet[2];
@@ -29,7 +27,7 @@ public class Arcane implements Serializable {
         this.nomArcane = "Arcane";
         this.effetArcane[0] = brulure;
         this.description = "";
-        this.dureeIncantation = 0;
+
         this.ratio = "";
     }
 
@@ -41,7 +39,7 @@ public class Arcane implements Serializable {
     	this.coutPA = coutPA;
     	this.nivAcquisition = nivAcquisition;
     	this.description = description;
-    	this.dureeIncantation = dureeIncantation;
+
     	this.ratio = ratio;
     	this.effetArcane = effetArcane;
     }
@@ -53,7 +51,6 @@ public class Arcane implements Serializable {
     	this.coutPA = a.getCoutPA();
     	this.nivAcquisition = a.getNivAcquisition();
     	this.description = new String(a.getDescription());
-    	this.dureeIncantation = a.getDureeIncantation();
     	this.effetArcane = a.getEffetArcane();
     }
 
@@ -110,13 +107,7 @@ public class Arcane implements Serializable {
         this.degatsArcane = degatsArcane;
     }
 
-    public int getDureeIncantation() {
-		return dureeIncantation;
-	}
 
-	public void setDureeIncantation(int dureeIncantation) {
-		this.dureeIncantation = dureeIncantation;
-	}
 
 	public String getRatio() {
 		return ratio;
@@ -148,8 +139,7 @@ public class Arcane implements Serializable {
 		return  nomArcane + ", degatsArcane="
 				+ degatsArcane + ", coutMana=" + coutMana + ", coutPA="
 				+ coutPA + ", nivAcquisition=" + nivAcquisition
-				+ ", description=" + description + ", dureeIncantation="
-				+ dureeIncantation + ", effetArcane="
+				+ ", description=" + description  + ", effetArcane="
 				+ Arrays.toString(effetArcane);
 	}
 

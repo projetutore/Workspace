@@ -1,18 +1,19 @@
 package jobs;
 
-import Objets.Arme;
-import Objets.BaguetteMagique;
-import Objets.Baton;
-import Objets.EpeeLegere;
-import Objets.EpeeLourde;
-import Objets.ExceptionArme;
-import Objets.Main;
-import Objets.Objet;
-
+import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.Scanner;
 
+import Objets.CreationArme;
+import Objets.ExceptionArme;
+import Objets.Objet;
+import Objets.Classe.Arme.Baton;
+import Objets.Classe.Arme.EpeeLegere;
+import Objets.Classe.Arme.Main;
+import Objets.Classe.Protection.Cote;
+import Objets.Classe.Protection.Torse;
+import Objets.Interface.Arme;
+import Objets.Interface.Armure;
 import carte.Elements;
 /**
  * Heros est la classe representant le personnageJoueur
@@ -75,10 +76,13 @@ public class Heros extends Personnage implements Elements {
     
     public static final Arme DEFAULT_MAINDROITE = new Main("MainDroite"); 
     public static final Arme DEFAULT_MAINGAUCHE = new Main("Maingauche");
+    public static final Armure DEFAULT_TORSE = new Torse();
     
     private Arme mainDroite = DEFAULT_MAINDROITE;
     private Arme mainGauche = DEFAULT_MAINGAUCHE;
     
+    private Armure torse = DEFAULT_TORSE;
+    private Objet[] inventaire = new Objet[20];
 
     /**
      * Represente le nombre de points gagnees par niveau
@@ -117,6 +121,7 @@ public class Heros extends Personnage implements Elements {
          * L'attaque du heros est la somme entre son degré de force
          * et le degré d'Attaque de son arme
          */
+        
 
     }
 
@@ -135,8 +140,7 @@ public class Heros extends Personnage implements Elements {
 		this.tabArcaneHeros = tabArcaneHeros;
 		this.mainDroite = mainDroite;
 		this.mainGauche = mainGauche;
-        this.remiseAttaque();
-        this.remiseDegats();
+
 	}
    
     public Job getJob() {
@@ -224,6 +228,26 @@ public class Heros extends Personnage implements Elements {
 			this.mainGauche = mainGauche;
 	}
 
+	public Armure getTorse() {
+		return torse;
+	}
+
+
+	public void setTorse(Armure torse) {
+		this.torse = torse;
+	}
+
+
+	public Objet[] getInventaire() {
+		return inventaire;
+	}
+
+
+	public void setInventaire(Objet[] inventaire) {
+		this.inventaire = inventaire;
+	}
+
+
 	public void equiper(Objet equipement){
 		
 		switch(equipement.emplacementEquipement()){
@@ -231,6 +255,8 @@ public class Heros extends Personnage implements Elements {
 			Arme arme_equip = (Arme) equipement;
 			this.equipementArme(arme_equip);	
 		case "Torse":
+			Armure armure_equip = (Armure) equipement;
+			this.equipementArmure(armure_equip);
 		}
 		this.remiseDegree();
 	}
@@ -239,7 +265,7 @@ public class Heros extends Personnage implements Elements {
 		Scanner scanner = new Scanner(System.in);
 		int choixEquipement;
 		if(arme_equip.getNombreMain()==2){
-			System.out.println("Etes-vous sur de vouloir remplacer : \n"+ mainDroite.affichageCaracteristique() + " et " 
+			System.out.println("Etes-vous sur de vouloir remplacer : \n"+ mainDroite.affichageCaracteristique() + " et\n" 
 		    + mainGauche.affichageCaracteristique()	+ " ?" + "\n1-Equiper \n2-Annuler" );
 			choixEquipement = scanner.nextInt();
 			while(choixEquipement!=1 && choixEquipement!=2){
@@ -248,7 +274,8 @@ public class Heros extends Personnage implements Elements {
 			}
 			switch(choixEquipement){
 				case 1: 
-				this.setMainDroite(arme_equip);
+				mainDroite.desequiper(this);
+				this.setMainDroite(arme_equip.equiper(this));
 				break;
 				case 2:
 				return;
@@ -264,20 +291,43 @@ public class Heros extends Personnage implements Elements {
 			scanner.nextInt();
 		}
 		if(mainDroite.getNombreMain()==2 || mainGauche.getNombreMain()==2){
-			mainDroite = DEFAULT_MAINDROITE ;
-			mainGauche = DEFAULT_MAINGAUCHE;
+			mainDroite.desequiper(this);
 		}
 		switch(choixEquipement){
 		case 1:
-			this.setMainDroite(arme_equip);
+			mainDroite.desequiper(this,1);
+			this.setMainDroite(arme_equip.equiper(this));
 			break;
 		case 2:
-			this.setMainGauche(arme_equip);
+			mainGauche.desequiper(this, 2);
+			this.setMainGauche(arme_equip.equiper(this));
 			break;
 			}
 		}
 	}
 	
+	public void equipementArmure(Armure armure_equip){
+		Scanner scanner = new Scanner(System.in);
+		int choixEquipement;
+		
+		System.out.println("Etes-vous sur de vouloir vous equiper de : \n"+ armure_equip.affichageCaracteristique() +
+				" à la place de " + this.getTorse().affichageCaracteristique() + " ?\n1-Equiper\n2-Annuler");
+				choixEquipement = scanner.nextInt();
+				while(choixEquipement!=1 && choixEquipement!=2){
+					System.out.println("Choisissez entre 1 et 2");
+					choixEquipement = scanner.nextInt();
+				}
+				switch(choixEquipement){
+					case 1: 
+					armure_equip.desequiper(this);
+					this.setTorse(armure_equip.equiper(this));
+					break;
+					
+					case 2:
+					return;
+				}
+			}
+
     public void niveauSuperieur() {
     	@SuppressWarnings("unused")
 		FichePerso base = null;
@@ -318,7 +368,6 @@ public class Heros extends Personnage implements Elements {
         int choix = creation.nextInt();
         x.setJob(x.getJob().choixJob(choix, x));
        }
-        x.setArcaneHeros(0);
         x.remiseDegree();
         return x;
     }
@@ -392,37 +441,12 @@ public class Heros extends Personnage implements Elements {
 		this.setdResistance(new Degree(this.getResistance()));
 		this.setDegats(Degree.somme(this.getdForce(), this.getMainDroite().getImpactArme()));
 		this.setAttaque(Degree.somme(this.getdAgilite(), this.getMainDroite().getManiabilite()));
-		this.remiseDegatsM();
+		this.setInitiative(Degree.soustraction(this.getdAgilite(), this.torse.getEncombrement()));
+		this.setEsquive(Degree.soustraction(this.getdAgilite(), this.torse.getEncombrement()));
+		this.setDefense(Degree.somme(this.getdConstitution(), this.torse.getSolidite()));		
+		this.setDefenseM(Degree.somme(this.getdResistance(), this.torse.getResistanceMagique()));
 	}
 	
-	public void remiseAttaque() {
-		this.setDegats(Degree.somme(this.getdForce(), this.getMainDroite().getImpactArme()));
-	}
-
-	public void remiseDegats() {
-		this.setAttaque(Degree.somme(this.getdAgilite(), this.getMainDroite().getManiabilite()));
-	}
-	
-	public void remiseDegatsM() {
-		
-		Degree sommeImpactM = new Degree();
-		if(mainDroite.getNombreMain()==2){
-			this.setDegatsM(Degree.somme(this.getdIntelligence(), mainDroite.getImpactMagique()));
-		}
-		if((mainDroite.getClass().getSimpleName()=="BaguetteMagique")&&(mainGauche.getClass().getSimpleName()=="BaguetteMagique")){
-			sommeImpactM = Degree.somme(mainDroite.getImpactMagique(), mainGauche.getImpactMagique());
-			this.setDegatsM(sommeImpactM);
-			}
-			
-		else if(mainDroite.getClass().getSimpleName().equals("BaguetteMagique")){
-			this.setDegatsM(Degree.somme(this.getdIntelligence(), mainDroite.getImpactMagique()));
-		}
-		else if(mainGauche.getClass().getSimpleName().equals("BaguetteMagique")){
-			this.setDegatsM(Degree.somme(this.getdIntelligence(), mainGauche.getImpactMagique()));
-		}
-		else
-			this.setDegatsM(this.getdIntelligence());	
-	}
 	
  	public String toString() {
  		return "H";
@@ -432,7 +456,7 @@ public class Heros extends Personnage implements Elements {
 	public String affichageCaracteristique() {
 		// TODO Auto-generated method stub
 		 return job + " " + super.toString() + " experience: " + experience
- 				+ " niveau: " + niveau + "\nArme :" + mainDroite + ", mainGauche=" + mainGauche
+ 				+ " niveau: " + niveau + "\nArme :" + mainDroite.affichageCaracteristique()+ ", mainGauche=" + mainGauche.affichageCaracteristique()
  				+ ", degats=" + this.getDegats();
 	}
 
@@ -455,6 +479,20 @@ public class Heros extends Personnage implements Elements {
 		return this.getTabArcaneHeros()[c];
  	}
  	
+ 	public void ajoutObjet(Objet o){
+ 		int i = 0;
+ 		while( inventaire[i] != null){
+ 			i++;
+ 		}
+ 		if(inventaire[i]== null){
+ 			inventaire[i] = o;
+ 			System.out.println("Vous avez récupéré " + o.affichageCaracteristique());
+ 		}
+ 		else{
+ 			System.out.println("Vous n'avez plus de place dans votre inventaire, jeter d'abord un objet avant de ramasser celui-ci!");
+ 		}
+ 			
+ 	}
  	public static void main(String[] args) {
  		
         Heros[] herosOccupe = new Heros[500];
@@ -467,33 +505,74 @@ public class Heros extends Personnage implements Elements {
         Degree x = new Degree(5);
 		Degree y = new Degree(2);
 		Degree z = new Degree(20);
-		Arme batonbois= null;
 
+		System.out.println(herosOccupe[1].getAttaque());
+
+		
+		Cote a_essayer = new Cote("Cote", x, y , y, "");
+		System.out.println(herosOccupe[1].getDefense());
+		System.out.println(herosOccupe[1].getInitiative());
+		System.out.println(herosOccupe[1].getEsquive());	
+		
+		herosOccupe[1].equiper(a_essayer);
+		System.out.println(herosOccupe[1].getAttaque());
+
+	//	herosOccupe[1].setInitiative(Degree.soustraction(herosOccupe[1].getInitiative(), herosOccupe[1].getTorse().getEncombrement()));
+	//	herosOccupe[1].setEsquive(Degree.soustraction(herosOccupe[1].getEsquive(),herosOccupe[1].getTorse().getEncombrement()));
+	//	herosOccupe[1].setDefense(Degree.somme(herosOccupe[1].getDefense(), herosOccupe[1].getTorse().getSolidite()));
+		
+		System.out.println(herosOccupe[1].getDefense());
+		System.out.println(herosOccupe[1].getInitiative());
+		System.out.println(herosOccupe[1].getEsquive());	
+		
+		herosOccupe[1].equiper(DEFAULT_TORSE);
+		System.out.println(herosOccupe[1].getAttaque());
+		System.out.println(herosOccupe[1].getDefense());
+		System.out.println(herosOccupe[1].getEsquive());
+		System.out.println(herosOccupe[1].getInitiative());
+
+		/*
+		
+		System.out.println(herosOccupe[1].getdAgilite());
+		System.out.println(herosOccupe[1].getdConstitution());
+		System.out.println(herosOccupe[1].getDefense());
+		System.out.println(herosOccupe[1].getInitiative());
+		/*
 		try {
 			batonbois = new Baton("Baton en bois", x, z, y, " ");
 		} catch (ExceptionArme e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		ArrayList<Arme> epeeLourde = null;
+		try {
+			epeeLourde = CreationArme.creationEpeeLourdes();
+		} catch (ExceptionArme e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		herosOccupe[1].equiper(epeeLourde.get(0));
+		System.out.println(herosOccupe[1].getDegats());
 
 		herosOccupe[1].equiper(batonbois);
-	System.out.println(herosOccupe[1].getDegatsM());
+		System.out.println(herosOccupe[1].getDegats());
+
+	System.out.println(herosOccupe[1].getDegats());
 		Arme epeeLegere = null;
 		try{
-			epeeLegere = new EpeeLegere("Epee Legere", x,y, " ");
+			epeeLegere = new EpeeLegere("Epee Legere", z,y, " ");
 		}catch(ExceptionArme e){
 			e.printStackTrace();
 		}
 		
 		herosOccupe[1].equiper(epeeLegere);
-		
+		System.out.println(herosOccupe[1].getDegatsM());
+
+		System.out.println(herosOccupe[1].getDegats());
+		System.out.println(herosOccupe[1].mainDroite.affichageCaracteristique());
+		System.out.println(herosOccupe[1].mainGauche.affichageCaracteristique());
 
 
-    
-    }
-
-
-	
-
-	
+    */
+    }	
 }

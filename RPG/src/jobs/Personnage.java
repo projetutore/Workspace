@@ -13,6 +13,10 @@ public abstract class Personnage {
     private Degree attaque;
     private Degree degats;
     private Degree degatsM;
+    private Degree initiative;
+    private Degree esquive;
+    private Degree defense;
+    private Degree defenseM;
 
     public Personnage(){
     	this.nom = "Inconnu";
@@ -209,15 +213,53 @@ public abstract class Personnage {
 	}
 
 
+	public Degree getInitiative() {
+		return initiative;
+	}
+
+
+	public void setInitiative(Degree initiative) {
+		this.initiative = initiative;
+	}
+
+
+	public Degree getEsquive() {
+		return esquive;
+	}
+
+
+	public void setEsquive(Degree esquive) {
+		this.esquive = esquive;
+	}
+
+
+	public Degree getDefense() {
+		return defense;
+	}
+
+
+	public void setDefense(Degree defense) {
+		this.defense = defense;
+	}
+
+
+	public Degree getDefenseM() {
+		return defenseM;
+	}
+
+
+	public void setDefenseM(Degree defenseM) {
+		this.defenseM = defenseM;
+	}
+
+
 	public int getMaxMana() {
 		return maxMana;
 	}
 	
-	public abstract void remiseAttaque();
-	public abstract void remiseDegats();
-	public abstract void remiseDegatsM();
+
 	public abstract void remiseDegree();
-	
+
     public String toString() {
         return  nom + "\nVIE:" + maxVie + ", MANA:" + maxMana +
         		" FOR: " + force + " INT: " + intelligence
