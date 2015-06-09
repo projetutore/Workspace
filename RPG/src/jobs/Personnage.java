@@ -67,13 +67,19 @@ public abstract class Personnage {
     }
 
     public void setVie(int vie) {
-        this.vie = vie;
+    	this.vie = vie;
     }
 
     public int getMaxVie() {
         return maxVie;
     }
 
+    public void regainDeVie(int regain){
+    	this.vie +=regain;
+    	if(this.vie > maxVie){
+    		vie = maxVie;
+    	}
+    }
     public void setMaxVie(int maxVie) {
         this.maxVie = maxVie;
     }

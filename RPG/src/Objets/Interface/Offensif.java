@@ -1,6 +1,5 @@
 package Objets.Interface;
 
-import Objets.Objet;
 import jobs.Degree;
 
 public interface Offensif extends Objet{

@@ -1,9 +1,11 @@
 package Objets.Classe.Arme;
 
+import CalculEtCombat.Calcul;
 import Objets.ExceptionArme;
 import Objets.Interface.Arme;
 import jobs.Degree;
 import jobs.Heros;
+import jobs.Monstre;
 
 public class Lance implements Arme {
 
@@ -87,17 +89,26 @@ public class Lance implements Arme {
 	}
 
 	@Override
-	public void desequiper(Heros h, int numMain) {
+	public Arme desequiper(Heros h, int numMain) {
 		h.setMainDroite(Heros.DEFAULT_MAINDROITE);
 		h.setMainGauche(Heros.DEFAULT_MAINGAUCHE);
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));
+		return this;
 	}
 
 	@Override
-	public void desequiper(Heros h) {
-		// TODO Auto-generated method stub
+	public Arme desequiper(Heros h) {
+		return null;
 		
 	}
 
+	@Override
+	public void attaquer(Heros h, Monstre m) {
+		Calcul.calculDegats(h, m);
+	}
+
+	public void utiliser(Heros h) {
+		h.equiper(this);;
+	}
 }

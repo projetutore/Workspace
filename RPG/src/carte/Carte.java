@@ -1,16 +1,17 @@
 package carte;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Random;
+import java.util.Scanner;
 
-import Objets.CreationArme;
-import Objets.ExceptionArme;
-import Objets.Objet;
-import sauvegarde.SauvegardeJeu;
 import jobs.Heros;
 import jobs.Monstre;
-import jobs.Personnage;
 import jobs.PersonnageCarException;
+import Objets.CreationArme;
+import Objets.ExceptionArme;
+import Objets.Interface.Objet;
 
 public class Carte implements Serializable{
 	
@@ -281,108 +282,98 @@ public class Carte implements Serializable{
 				if(grille[i][j].equals(p)){
 					switch(numMain){
 					case 1:
-						for(int k = 0; k <=  p.getMainGauche().getPortee(); k++){
+						for(int k = 0; k <=  p.getMainDroite().getPortee(); k++){
 							try{
-								if (grille[i+k][j] instanceof Monstre){
-									monstre_a_attaquer.add((Monstre) grille[i+k][j]);
-									System.out.println("i : " + i + " j : "+ j + " k : "+ k );
+								if (grille[i+k][j] instanceof Monstre && monstre_a_attaquer.contains(grille[i+k][j]) ==false){
+									monstre_a_attaquer.add((Monstre) grille[i+k][j] );
 								}
-								else if(grille[i-k][j] instanceof Monstre){
+								else if(grille[i-k][j] instanceof Monstre && monstre_a_attaquer.contains(grille[i-k][j]) ==false){
 									monstre_a_attaquer.add((Monstre) grille[i-k][j]);
-									System.out.println("i : " + i + " j : "+ j + " k : "+ k );
 								}
 							
 							}catch(ArrayIndexOutOfBoundsException e){}
 							
-						for(int l = 0; l<= p.getMainGauche().getPortee(); l++){
-								try{
-									if (grille[i][j+l] instanceof Monstre){
-										monstre_a_attaquer.add((Monstre) grille[i][j+l]);
-										System.out.println("i : " + i + " j : "+ j + " l : "+ l );
-									}
-									else if(grille[i][j-l] instanceof Monstre){
-										monstre_a_attaquer.add((Monstre) grille[i][j-l]);
-										System.out.println("i : " + i + " j : "+ j + " l : "+ l );
-									}
-								}catch(ArrayIndexOutOfBoundsException e){}
+						for(int l = 0; l<= p.getMainDroite().getPortee(); l++){
+							try{
+								if (grille[i][j+l] instanceof Monstre && monstre_a_attaquer.contains(grille[i][j+l]) == false){
+									monstre_a_attaquer.add((Monstre) grille[i][j+l]);
+								}
+								else if(grille[i][j-l] instanceof Monstre && monstre_a_attaquer.contains(grille[i][j-l]) == false){
+									monstre_a_attaquer.add((Monstre) grille[i][j-l]);
+								}
+							}catch(ArrayIndexOutOfBoundsException e){}
 						}
-						}
-					
-						
-						break;
+					}	
+					break;
 
 					case 2:
 						for(int k = 0; k <=  p.getMainGauche().getPortee(); k++){
 							try{
 								if (grille[i+k][j] instanceof Monstre && monstre_a_attaquer.contains(grille[i+k][j]) ==false){
 									monstre_a_attaquer.add((Monstre) grille[i+k][j] );
-									System.out.println("i : " + i + " j : "+ j + " k : "+ k );
 								}
 								else if(grille[i-k][j] instanceof Monstre && monstre_a_attaquer.contains(grille[i-k][j]) ==false){
 									monstre_a_attaquer.add((Monstre) grille[i-k][j]);
-									System.out.println("i : " + i + " j : "+ j + " k : "+ k );
 								}
-							
 							}catch(ArrayIndexOutOfBoundsException e){}
 							
 						for(int l = 0; l<= p.getMainGauche().getPortee(); l++){
 								try{
-									if (grille[i][j+l] instanceof Monstre && monstre_a_attaquer.contains(grille[i][j+l]) ==false){
+									if (grille[i][j+l] instanceof Monstre && monstre_a_attaquer.contains(grille[i][j+l]) == false){
 										monstre_a_attaquer.add((Monstre) grille[i][j+l]);
-										System.out.println("i : " + i + " j : "+ j + " l : "+ l );
 									}
-									else if(grille[i][j-l] instanceof Monstre && monstre_a_attaquer.contains(grille[i][j-l]) ==false){
+									else if(grille[i][j-l] instanceof Monstre && monstre_a_attaquer.contains(grille[i][j-l]) == false){
 										monstre_a_attaquer.add((Monstre) grille[i][j-l]);
-										System.out.println("i : " + i + " j : "+ j + " l : "+ l );
 									}
 							
-							//	else if(grille[i-k][j-l] instanceof Monstre){
-							//			monstre_a_attaquer.add((Monstre) grille[i-k][j-l]);
-
-								
-					//		}
-						}catch(ArrayIndexOutOfBoundsException e){}
+								}catch(ArrayIndexOutOfBoundsException e){}
+							}
+						}
+					break;	
 					}
-			}
-						break;	
-
-				}
 				}
 			}
 		}
+		
 		if(monstre_a_attaquer.isEmpty()==false){
-		System.out.println("Quel monstre souhaitez-vous attaquer?" );
-		Monstre.afficheCollectionMonstreAttaque(monstre_a_attaquer);
-		
-		int choix = 0;
-		Scanner scanner = new Scanner(System.in);
-		try{
-			choix = scanner.nextInt();
-		while(choix<0 && choix >monstre_a_attaquer.size()){
-			System.out.println("Veuillez saisir un chiffre entre 0(annuler l'attaque) et "+ monstre_a_attaquer.size());
-			choix = scanner.nextInt();
-		}
-		try{
-		if(numMain == 1)
-			p.getMainDroite().attaquer(p, monstre_a_attaquer.get(choix-1));		
-		else
-			p.getMainGauche().attaquer(p, monstre_a_attaquer.get(choix-1));
-		}catch(ArrayIndexOutOfBoundsException e){}
-		}catch(ArrayIndexOutOfBoundsException e){}
-		if(monstre_a_attaquer.get(choix-1).getVie()<0){
-			for(int i = 0; i < nbLig; i++){
-				for(int j = 0; j<nbCol; j++){
-					if(grille[i][j].equals(monstre_a_attaquer.get(choix-1))){
-						grille[i][j] = s;
+			System.out.println("Quel monstre souhaitez-vous attaquer?" );
+			Monstre.afficheCollectionMonstreAttaque(monstre_a_attaquer);
+			Scanner scanner = new Scanner(System.in);
+			int choix = 0;
+			try{
+				choix = scanner.nextInt();
+			while(choix<0 && choix >monstre_a_attaquer.size()){
+				System.out.println("Veuillez saisir un chiffre entre 0(annuler l'attaque) et "+ monstre_a_attaquer.size());
+				try{
+					choix = scanner.nextInt();
+				}catch(ArrayIndexOutOfBoundsException e){
+					System.out.println("Veuillez saisir un chiffre entre 0(annuler l'attaque) et "+ monstre_a_attaquer.size());
+				}
+			}
+			try{
+			if(numMain == 1)
+				p.getMainDroite().attaquer(p, monstre_a_attaquer.get(choix-1));		
+			else
+				p.getMainGauche().attaquer(p, monstre_a_attaquer.get(choix-1));
+			}catch(ArrayIndexOutOfBoundsException e){
+				System.out.println("Veuillez saisir un chiffre entre 0(annuler l'attaque) et "+ monstre_a_attaquer.size());
+			}
+			}catch(ArrayIndexOutOfBoundsException e){
+				System.out.println("Veuillez saisir un chiffre entre 0(annuler l'attaque) et "+ monstre_a_attaquer.size());
+			}
+			
+			if(monstre_a_attaquer.get(choix-1).getVie()<0){
+				for(int i = 0; i < nbLig; i++){
+					for(int j = 0; j<nbCol; j++){
+						if(grille[i][j].equals(monstre_a_attaquer.get(choix-1))){
+							grille[i][j] = s;
+						}
 					}
 				}
 			}
 		}
-		}
-		monstre_a_attaquer.clear();
-		
-			
-		}
+		monstre_a_attaquer.clear();	
+	}
 
 	
 	/*public void choix(){
@@ -425,7 +416,7 @@ public class Carte implements Serializable{
 		int choix = alea.nextInt(3);
 		int objet_tire = alea.nextInt(listeObjet.size());
 		int monstre_tire = alea.nextInt(listeMonstre.size());
-		if(this.grille[aleatoireX][aleatoireY] == s){
+		if(this.grille[aleatoireX][aleatoireY].equals(s)){
 			switch (choix){
 			case 0: grille[aleatoireX][aleatoireY] =  new Monstre(listeMonstre.get(monstre_tire));
 					break;

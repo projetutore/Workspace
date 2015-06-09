@@ -87,7 +87,7 @@ public class EpeeLegere implements Arme {
 	}
 
 	@Override
-	public void desequiper(Heros h, int numMain) {
+	public Arme desequiper(Heros h, int numMain) {
 		switch(numMain){
 		case 1: 
 			h.setMainDroite(Heros.DEFAULT_MAINDROITE);
@@ -99,41 +99,23 @@ public class EpeeLegere implements Arme {
 		}
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));		
+		return this;
+
 	}
 
 	@Override
-	public void desequiper(Heros h) {
-		// TODO Auto-generated method stub
-		
+	public Arme desequiper(Heros h) {
+		return null;		
 	}
 
 	@Override
 	public void attaquer(Heros h, Monstre m) {
 		Calcul.calculDegats(h, m);
 	}
-		
-/*		
-		try{
-			
-			for(int i=1; i<= this.getJequip().getMain1().getRange() ; i++  ){
-				
-				if(jeu.getGrille()[this.x - i][this.y] instanceof Mob){
-				((Mob) jeu.getGrille()[this.x - i][this.y]).damage(this,jeu);
-				return true;
-					}
-				}
-			}
-				catch(ArrayIndexOutOfBoundsException e){
-					
-				}
-				
-			
-			
-				return false;
-		}
-		
-		
+	
+	public void utiliser(Heros h) {
+		h.equiper(this);;
 	}
 
-*/
+		
 }

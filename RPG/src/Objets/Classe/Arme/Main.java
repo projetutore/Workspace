@@ -1,8 +1,10 @@
 package Objets.Classe.Arme;
 
+import CalculEtCombat.Calcul;
 import Objets.Interface.Arme;
 import jobs.Degree;
 import jobs.Heros;
+import jobs.Monstre;
 
 public class Main implements Arme {
 
@@ -73,12 +75,12 @@ public class Main implements Arme {
 		return this;
 	}
 	@Override
-	public void desequiper(Heros h) {
-		return;
+	public Arme desequiper(Heros h) {
+		return null;
 	}
 	
 	@Override
-	public void desequiper(Heros h, int numMain) {
+	public Arme desequiper(Heros h, int numMain) {
 		switch(numMain){
 		case 1: 
 			h.setMainDroite(Heros.DEFAULT_MAINDROITE);
@@ -89,5 +91,15 @@ public class Main implements Arme {
 		}
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));
+		
+		return this;
+	}
+	@Override
+	public void attaquer(Heros h, Monstre m) {
+		Calcul.calculDegats(h, m);
+	}
+	
+	public void utiliser(Heros h) {
+		h.equiper(this);;
 	}
 }

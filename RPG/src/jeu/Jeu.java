@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 import Objets.ExceptionArme;
 import Objets.Classe.Arme.Arc;
+import Objets.Classe.Arme.EpeeLourde;
+import Objets.Classe.Arme.Gungnir;
 import sauvegarde.SauvegardeJeu;
 import jobs.Degree;
 import jobs.Heros;
@@ -53,12 +55,18 @@ public class Jeu implements Serializable {
 		//carte.deplacement();	
 	    System.out.println(carte.Afficher());
 	    Arc artemis = null;
+	    EpeeLourde claymore = null;
+	    Gungnir gungnir = null;
 	    try {
 			 artemis = new Arc("Hankyu", new Degree(4), new Degree(6), 3, "");
+			 claymore = new EpeeLourde("Claymore", new Degree(14), new Degree(4), "" );
+			 gungnir = new Gungnir();
 		} catch (ExceptionArme e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	    	personnageJoueur.equiper(gungnir);
+	   	personnageJoueur.equiper(claymore);
 	    	personnageJoueur.equiper(artemis);
 		  personnageJoueur.choix(carte);
 		

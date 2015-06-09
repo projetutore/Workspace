@@ -1,9 +1,11 @@
 package Objets.Classe.Arme;
 
+import CalculEtCombat.Calcul;
 import Objets.ExceptionArme;
 import Objets.Interface.Arme;
 import jobs.Degree;
 import jobs.Heros;
+import jobs.Monstre;
 
 public class BaguetteMagique implements Arme{
 
@@ -90,7 +92,7 @@ public class BaguetteMagique implements Arme{
 	}
 
 
-	public void desequiper(Heros h, int numMain) {
+	public Arme desequiper(Heros h, int numMain) {
 		switch(numMain){
 		case 1: 
 			h.setMainDroite(Heros.DEFAULT_MAINDROITE);
@@ -102,12 +104,23 @@ public class BaguetteMagique implements Arme{
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));
 		h.setDegatsM(Degree.soustraction((h.getDegatsM()), this.getImpactMagique()));
+		return this;
+
+	}
+
+	@Override
+	public Arme desequiper(Heros h) {
+		return null;
+	}
+
+	@Override
+	public void attaquer(Heros h, Monstre m) {
+		Calcul.calculDegats(h, m);		
 		
 	}
 
 	@Override
-	public void desequiper(Heros h) {
-		// TODO Auto-generated method stub
-		
+	public void utiliser(Heros h) {
+		h.equiper(this);;
 	}
 }

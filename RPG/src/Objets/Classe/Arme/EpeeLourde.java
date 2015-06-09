@@ -1,9 +1,11 @@
 package Objets.Classe.Arme;
 
+import CalculEtCombat.Calcul;
 import Objets.ExceptionArme;
 import Objets.Interface.Arme;
 import jobs.Degree;
 import jobs.Heros;
+import jobs.Monstre;
 
 public class EpeeLourde implements Arme {
 	private String nomEpeeLourde; 
@@ -84,17 +86,29 @@ public class EpeeLourde implements Arme {
 	}
 
 	@Override
-	public void desequiper(Heros h) {
+	public Arme desequiper(Heros h) {
 		h.setMainDroite(Heros.DEFAULT_MAINDROITE);
 		h.setMainGauche(Heros.DEFAULT_MAINGAUCHE);
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));
+		return this;
+
 	}
 
 	@Override
-	public void desequiper(Heros h, int numMain) {
-		// TODO Auto-generated method stub
+	public Arme desequiper(Heros h, int numMain) {
+		return null;
 		
 	}
 
+	@Override
+	public void attaquer(Heros h, Monstre m) {
+		
+		Calcul.calculDegats(h, m);		
+		
+	}
+
+	public void utiliser(Heros h) {
+		h.equiper(this);;
+	}
 }

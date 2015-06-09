@@ -18,9 +18,10 @@ public class Calcul {
 	 * Dans le cas oï¿½ la dï¿½fense du p2 est supï¿½rieur ï¿½ celle du p1, la fonction retourne 0, dans le cas contraire,
 	 * les dï¿½gats sont ceux d'attAleatoire.
 	 */
-	    public static void calculDegats(Personnage p1, Personnage p2) {
+	    public static int calculDegats(Personnage p1, Personnage p2) {
 	        // le personnage p1 est celui qui attaque, le p2 celui qui defend. 
 	    	Random lancer_de_des = new Random();
+
 	    	int touche = 0;
 	    	int esquive = 0;
 	    	for(int i = 1; i<=p1.getAttaque().getDes(); i++){
@@ -36,33 +37,38 @@ public class Calcul {
 	    		int defense = 0;
 	    		int degatsInfliges = 0;
 	    		for(int i = 1; i<=p1.getDegats().getDes(); i++){
-		    		degats += (lancer_de_des.nextInt(8)+1)+p1.getDegats().getReste();
-		    			System.out.println(degats + "="+i);;
-		    		}
+		    		degats += (lancer_de_des.nextInt(8)+1)+(p1.getDegats().getReste());
+		    	}
 		    			
 		    	for(int j = 1; j<=p2.getDefense().getDes(); j++){
-		    			defense += (lancer_de_des.nextInt(8)+1)+p2.getEsquive().getReste();
-		    			System.out.println(defense + "=" + j);	
+		    		defense += (lancer_de_des.nextInt(8)+1)+(p2.getEsquive().getReste());
 		    	}
-	    		
-		    	degatsInfliges = degats-defense;
+
+		
+		    	degatsInfliges = degats-defense;	
+
 	    		if(p1 instanceof Heros){
+	    			Heros h = (Heros) p1;
+	    			if(h.getMainDroite().getClass().getSimpleName().equals( "EpeeLourde")){
+	    				degatsInfliges *=2;
+	    			}
 	    			if(degatsInfliges<=0){
 	    	            System.out.println(p1.getNom() + " Tente d'attaquer " + p2.getNom() + ". Ce coup ne fait aucun dégât " + p2.getNom() + " n'a perdu aucun points de vie");
 	    			}
 	    			else{	    
 	    				p2.setVie(p2.getVie()-degatsInfliges);
-	    				System.out.println( p1.getNom() + " inflige " + degatsInfliges+ " à " + p2.getNom()+
-	    	                    "\nIl lui reste à present " + p2.getVie());
+	    				System.out.println( p1.getNom() + " inflige " + degatsInfliges+ " à " + p2.getNom());
+	    				if (p2.getVie()<0)
+	    					System.out.println(p2.getNom() + " est mort");
+	    				else{
+	    					System.out.println("\nIl lui reste à present " + p2.getVie());
+	    					p2=null;;
+	    				}
 	    			}
 	    		}
-	    	}
-	    	if(p2.getVie()<=0){
-	    		System.out.println(p2.getNom() + " est mort");
-
-	    		p2=null;
-	    		
-	    	}
+	    		return degatsInfliges;
+	    	}		
+	    	return 0;
 	    }
 
 	    	/*

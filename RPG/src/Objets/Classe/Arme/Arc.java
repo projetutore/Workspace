@@ -6,6 +6,7 @@ import jobs.Monstre;
 import CalculEtCombat.Calcul;
 import Objets.ExceptionArme;
 import Objets.Interface.Arme;
+import Objets.Interface.Objet;
 
 public class Arc implements Arme{
 	private String nomArc; 
@@ -89,21 +90,27 @@ public class Arc implements Arme{
 	}
 
 	@Override
-	public void desequiper(Heros h) {
+	public Arme desequiper(Heros h) {
 		h.setMainDroite(Heros.DEFAULT_MAINDROITE);
 		h.setMainGauche(Heros.DEFAULT_MAINGAUCHE);
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));	
+		return this;
 	}
 
 	@Override
-	public void desequiper(Heros h, int numMain) {
+	public Arme desequiper(Heros h, int numMain) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
 	public void attaquer(Heros h, Monstre m) {
 		Calcul.calculDegats(h, m);		
+	}
+
+	@Override
+	public void utiliser(Heros h) {
+		h.equiper(this);;
 	}
 }

@@ -1,19 +1,13 @@
 package jobs;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import Objets.CreationArme;
-import Objets.ExceptionArme;
-import Objets.Objet;
-import Objets.Classe.Arme.Baton;
-import Objets.Classe.Arme.EpeeLegere;
 import Objets.Classe.Arme.Main;
-import Objets.Classe.Protection.Cote;
 import Objets.Classe.Protection.Torse;
 import Objets.Interface.Arme;
 import Objets.Interface.Armure;
+import Objets.Interface.Objet;
 import carte.Carte;
 import carte.Elements;
 /**
@@ -24,6 +18,11 @@ import carte.Elements;
 public class Heros extends Personnage implements Elements {
 	
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Un heros possède une experience de type integer
      * 
      * @see Heros#getExperience()
@@ -265,11 +264,18 @@ public class Heros extends Personnage implements Elements {
 	}
 	
 	public void equipementArme(Arme arme_equip){
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		int choixEquipement;
 		if(arme_equip.getNombreMain()==2){
-			System.out.println("Etes-vous sur de vouloir remplacer : \n"+ mainDroite.affichageCaracteristique() + " et\n" 
-		    + mainGauche.affichageCaracteristique()	+ " ?" + "\n1-Equiper \n2-Annuler" );
+			if(this.getMainDroite().getNombreMain() == 2){
+				System.out.println("Etes-vous sur de vouloir remplacer : \n" + mainDroite.affichageCaracteristique()
+						+ "\n1-Equiper "+arme_equip.affichageCaracteristique()+ "\n2-Annuler");
+			}
+			else{
+			System.out.println("Etes-vous sur de vouloir remplacer : \n"+ mainDroite.affichageCaracteristique() + " et " 
+		    + mainGauche.affichageCaracteristique()	+ " ?" + "\n1-Equiper "+arme_equip.affichageCaracteristique()+ "\n2-Annuler");
+			}
 			choixEquipement = scanner.nextInt();
 			while(choixEquipement!=1 && choixEquipement!=2){
 				System.out.println("Choisissez entre 1 et 2");
@@ -277,8 +283,12 @@ public class Heros extends Personnage implements Elements {
 			}
 			switch(choixEquipement){
 				case 1: 
-				mainDroite.desequiper(this);
+					if(mainDroite.getClass().getSimpleName().equals("Main"))
+						mainDroite.desequiper(this);
+					else
+						this.ajoutObjet(mainDroite.desequiper(this));
 				this.setMainDroite(arme_equip.equiper(this));
+				this.retirerObjet(arme_equip);
 				break;
 				case 2:
 				return;
@@ -310,6 +320,7 @@ public class Heros extends Personnage implements Elements {
 	}
 	
 	public void equipementArmure(Armure armure_equip){
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		int choixEquipement;
 		
@@ -437,12 +448,18 @@ public class Heros extends Personnage implements Elements {
     }  
 
 	public void remiseDegree() {
+		this.setVie(this.getMaxVie());
 		this.setdForce(new Degree(this.getForce()));
 		this.setdIntelligence(new Degree(this.getIntelligence()));
 		this.setdConstitution(new Degree(this.getConstitution()));
 		this.setdAgilite(new Degree(this.getAgilite()));
 		this.setdResistance(new Degree(this.getResistance()));
 		this.setDegats(Degree.somme(this.getdForce(), this.getMainDroite().getImpactArme()));
+		try{
+			this.setDegatsM(Degree.somme(this.getdIntelligence(), this.getMainDroite().getImpactMagique()));
+		}catch(NullPointerException e){
+			this.setDegatsM(new Degree(this.getdIntelligence()));
+		}
 		this.setAttaque(Degree.somme(this.getdAgilite(), this.getMainDroite().getManiabilite()));
 		this.setInitiative(Degree.soustraction(this.getdAgilite(), this.torse.getEncombrement()));
 		this.setEsquive(Degree.soustraction(this.getdAgilite(), this.torse.getEncombrement()));
@@ -457,7 +474,6 @@ public class Heros extends Personnage implements Elements {
 
  	@Override
 	public String affichageCaracteristique() {
-		// TODO Auto-generated method stub
 		 return job + " " + super.toString() + " experience: " + experience
  				+ " niveau: " + niveau + "\nArme :" + mainDroite.affichageCaracteristique()+ ", mainGauche=" + mainGauche.affichageCaracteristique()
  				+ ", degats=" + this.getDegats();
@@ -477,6 +493,7 @@ public class Heros extends Personnage implements Elements {
     	}
 		
 		int c=0;
+		@SuppressWarnings("resource")
 		Scanner rentrer = new Scanner(System.in);
 		c = rentrer.nextInt();
 		return this.getTabArcaneHeros()[c];
@@ -489,18 +506,91 @@ public class Heros extends Personnage implements Elements {
  		}
  		if(inventaire[i]== null){
  			inventaire[i] = o;
- 			System.out.println("Vous avez récupéré " + o.affichageCaracteristique());
+ 			System.out.println("Vous avez mis dans votre sac " + o.getNomObjet() + "\n");
  		}
  		else{
- 			System.out.println("Vous n'avez plus de place dans votre inventaire, jeter d'abord un objet avant de ramasser celui-ci!");
+ 			System.out.println("Vous n'avez plus de place dans votre inventaire, jeter d'abord un objet avant mettre celui-ci dans votre sac!");
  		}
- 			
  	}
+ 	
+ 	public void retirerObjet(Objet o){
+ 		int i = 0;
+ 		while( inventaire[i] == null || inventaire[i] != null){
+ 				try{
+ 					if(inventaire[i].equals(o)){
+ 	 	
+ 				inventaire[i] = null;
+ 				return;
+ 					}
+ 	 		}catch(NullPointerException e ){
+ 	 			return;
+ 	 			
+ 	 		}
+
+ 			i++;
+ 		}
+ 		return;
+ 	}
+ 		
+ 		
+ 	public void affichageInventaire(){
+ 		
+ 		int case_vide = 0;
+ 		for(int i = 0 ; i<inventaire.length; i++){
+ 			if(inventaire[i] == null){
+ 				case_vide +=1;
+ 			}
+ 			
+ 			if(case_vide == inventaire.length){
+				System.out.println("Votre inventaire est vide!");
+				return;
+ 			}
+			if(this.inventaire[i] instanceof Objet)
+ 				System.out.println("Objet " + i +": "  + inventaire[i].getNomObjet());	
+		}
+ 		
+ 		Scanner choix = new Scanner(System.in);
+ 		System.out.println("Veuillez-saisir le n° de l'objet que vous souhaitez utiliser.");
+ 		int choixObjet = choix.nextInt();
+ 		while(inventaire[choixObjet] == null){
+ 			System.out.println("Veuillez rentrer le chiffre d'un objet existant");
+ 			choixObjet = choix.nextInt();
+ 		}
+ 		System.out.println("Souhaitez-vous utilisez " + inventaire[choixObjet].getNomObjet() + "\nO - Oui\nN - Non");
+ 			String oui_non = choix.next();
+ 			switch (oui_non){
+ 			case "O": 
+ 				inventaire[choixObjet].utiliser(this);
+ 				break;
+ 			case "N":
+ 				return;
+ 		}
+	/*
+ 		//for(Objet a : this.getInventaire()){
+    	for(i =0 ; i < this.getInventaire().length; i++){	
+ 		try{
+   				i++;
+    		}
+    		
+    		
+		catch(NullPointerException e){
+			//for(Objet y : this.getInventaire())
+				//if(y instanceof Objet){}
+			
+				//System.out.println("Votre inventaire est vide!");
+				//return;
+    	}catch(InputMismatchException e){}
+ 		}
+ 		
+ 		*/
+ 	}
+ 	
 	public void choix(Carte carte){
 		int i = 0;
 		while(i!=-1){
 		
 		System.out.println("Que souhaitez-vous faire ?\n(1 = deplacer, 2 = attaquer, 3 = voir l'inventaire)");
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		int nb = 0;
 		try{
@@ -513,106 +603,44 @@ public class Heros extends Personnage implements Elements {
 		case 1: carte.deplacement(this);
 			break;
 		case 2:
+			if(mainDroite.getNombreMain()==2){
+				System.out.println("Votre arme : "+ this.getMainDroite().affichageCaracteristique()
+						+ "\nValider vous votre attaque? \n1 - Attaquer \n2 - Annuler");
+				int choixAction = 0;
+				
+				choixAction = scan.nextInt();
+				
+				switch(choixAction){
+				case 1 :
+					carte.attaquer(this, 1);
+					break;
+				}
+			}
+			else{
+				
+		
 			int choixMain = 0;
 			System.out.println("Avec quelle main souhaitez vous attaquer?\n1 - "+ this.getMainDroite().affichageCaracteristique()+"\n2 - "+ this.getMainGauche().affichageCaracteristique());
-			try{
+			
 			choixMain = scan.nextInt();
-			}catch(InputMismatchException e){
-				System.out.println("Rentrer un autre chiffre");
 
-			}
 			switch(choixMain){
 			case 1:
 				carte.attaquer(this, 1);
 				break;
 			case 2:
 				carte.attaquer(this, 2);
+				break;
+				}
 			}
-			
+			break;
+		case 3: 
+			this.affichageInventaire();
 		}
-	}
-		i++;
+	
+		}
+
 	}
  	public static void main(String[] args) {
- 		
-        Heros[] herosOccupe = new Heros[500];
-        
-        herosOccupe[1] = Heros.creationPersonnage();    
-      /*  herosOccupe[1].setExperience(1900);
-        Scanner scan=new Scanner(System.in);
-        scan.nextLine();
-        System.out.println(herosOccupe[1].toString());*/
-        Degree x = new Degree(5);
-		Degree y = new Degree(2);
-		Degree z = new Degree(20);
-
-		System.out.println(herosOccupe[1].getAttaque());
-
-		
-		Cote a_essayer = new Cote("Cote", x, y , y, "");
-		System.out.println(herosOccupe[1].getDefense());
-		System.out.println(herosOccupe[1].getInitiative());
-		System.out.println(herosOccupe[1].getEsquive());	
-		
-		herosOccupe[1].equiper(a_essayer);
-		System.out.println(herosOccupe[1].getAttaque());
-
-	//	herosOccupe[1].setInitiative(Degree.soustraction(herosOccupe[1].getInitiative(), herosOccupe[1].getTorse().getEncombrement()));
-	//	herosOccupe[1].setEsquive(Degree.soustraction(herosOccupe[1].getEsquive(),herosOccupe[1].getTorse().getEncombrement()));
-	//	herosOccupe[1].setDefense(Degree.somme(herosOccupe[1].getDefense(), herosOccupe[1].getTorse().getSolidite()));
-		
-		System.out.println(herosOccupe[1].getDefense());
-		System.out.println(herosOccupe[1].getInitiative());
-		System.out.println(herosOccupe[1].getEsquive());	
-		
-		herosOccupe[1].equiper(DEFAULT_TORSE);
-		System.out.println(herosOccupe[1].getAttaque());
-		System.out.println(herosOccupe[1].getDefense());
-		System.out.println(herosOccupe[1].getEsquive());
-		System.out.println(herosOccupe[1].getInitiative());
-
-		/*
-		
-		System.out.println(herosOccupe[1].getdAgilite());
-		System.out.println(herosOccupe[1].getdConstitution());
-		System.out.println(herosOccupe[1].getDefense());
-		System.out.println(herosOccupe[1].getInitiative());
-		/*
-		try {
-			batonbois = new Baton("Baton en bois", x, z, y, " ");
-		} catch (ExceptionArme e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		ArrayList<Arme> epeeLourde = null;
-		try {
-			epeeLourde = CreationArme.creationEpeeLourdes();
-		} catch (ExceptionArme e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		herosOccupe[1].equiper(epeeLourde.get(0));
-		System.out.println(herosOccupe[1].getDegats());
-
-		herosOccupe[1].equiper(batonbois);
-		System.out.println(herosOccupe[1].getDegats());
-
-	System.out.println(herosOccupe[1].getDegats());
-		Arme epeeLegere = null;
-		try{
-			epeeLegere = new EpeeLegere("Epee Legere", z,y, " ");
-		}catch(ExceptionArme e){
-			e.printStackTrace();
-		}
-		
-		herosOccupe[1].equiper(epeeLegere);
-		System.out.println(herosOccupe[1].getDegatsM());
-
-		System.out.println(herosOccupe[1].getDegats());
-		System.out.println(herosOccupe[1].mainDroite.affichageCaracteristique());
-		System.out.println(herosOccupe[1].mainGauche.affichageCaracteristique());
-
-
-    */
     }	
 }
