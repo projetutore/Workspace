@@ -2,6 +2,8 @@ package Objets.Classe.Arme;
 
 import jobs.Degree;
 import jobs.Heros;
+import jobs.Monstre;
+import CalculEtCombat.Calcul;
 import Objets.ExceptionArme;
 import Objets.Interface.Arme;
 
@@ -98,5 +100,10 @@ public class Arc implements Arme{
 	public void desequiper(Heros h, int numMain) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void attaquer(Heros h, Monstre m) {
+		Calcul.calculDegats(h, m);		
 	}
 }

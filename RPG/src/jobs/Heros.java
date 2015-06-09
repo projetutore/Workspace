@@ -14,6 +14,7 @@ import Objets.Classe.Protection.Cote;
 import Objets.Classe.Protection.Torse;
 import Objets.Interface.Arme;
 import Objets.Interface.Armure;
+import carte.Carte;
 import carte.Elements;
 /**
  * Heros est la classe representant le personnageJoueur
@@ -91,7 +92,7 @@ public class Heros extends Personnage implements Elements {
      * @see Heros#monteeStat(int)
      * 
      */
-    public static final int PTS_NIV = 2;
+    public static final int PTS_NIV = 3;
     /**
      * Constructeur par defaut d'un Heros
      */
@@ -254,9 +255,11 @@ public class Heros extends Personnage implements Elements {
 		case "Main":
 			Arme arme_equip = (Arme) equipement;
 			this.equipementArme(arme_equip);	
+			break;
 		case "Torse":
 			Armure armure_equip = (Armure) equipement;
 			this.equipementArmure(armure_equip);
+			break;
 		}
 		this.remiseDegree();
 	}
@@ -493,6 +496,43 @@ public class Heros extends Personnage implements Elements {
  		}
  			
  	}
+	public void choix(Carte carte){
+		int i = 0;
+		while(i!=-1){
+		
+		System.out.println("Que souhaitez-vous faire ?\n(1 = deplacer, 2 = attaquer, 3 = voir l'inventaire)");
+		Scanner scan = new Scanner(System.in);
+		int nb = 0;
+		try{
+		nb = scan.nextInt();
+		}catch (InputMismatchException e){
+			System.out.println("Rentrer un autre chiffre");
+		}
+
+		switch (nb){
+		case 1: carte.deplacement(this);
+			break;
+		case 2:
+			int choixMain = 0;
+			System.out.println("Avec quelle main souhaitez vous attaquer?\n1 - "+ this.getMainDroite().affichageCaracteristique()+"\n2 - "+ this.getMainGauche().affichageCaracteristique());
+			try{
+			choixMain = scan.nextInt();
+			}catch(InputMismatchException e){
+				System.out.println("Rentrer un autre chiffre");
+
+			}
+			switch(choixMain){
+			case 1:
+				carte.attaquer(this, 1);
+				break;
+			case 2:
+				carte.attaquer(this, 2);
+			}
+			
+		}
+	}
+		i++;
+	}
  	public static void main(String[] args) {
  		
         Heros[] herosOccupe = new Heros[500];

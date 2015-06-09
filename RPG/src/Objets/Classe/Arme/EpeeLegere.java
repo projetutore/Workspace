@@ -1,9 +1,11 @@
 package Objets.Classe.Arme;
 
+import CalculEtCombat.Calcul;
 import Objets.ExceptionArme;
 import Objets.Interface.Arme;
 import jobs.Degree;
 import jobs.Heros;
+import jobs.Monstre;
 
 public class EpeeLegere implements Arme {
 	private String nomEpeeLegere; 
@@ -105,5 +107,33 @@ public class EpeeLegere implements Arme {
 		
 	}
 
-	
+	@Override
+	public void attaquer(Heros h, Monstre m) {
+		Calcul.calculDegats(h, m);
+	}
+		
+/*		
+		try{
+			
+			for(int i=1; i<= this.getJequip().getMain1().getRange() ; i++  ){
+				
+				if(jeu.getGrille()[this.x - i][this.y] instanceof Mob){
+				((Mob) jeu.getGrille()[this.x - i][this.y]).damage(this,jeu);
+				return true;
+					}
+				}
+			}
+				catch(ArrayIndexOutOfBoundsException e){
+					
+				}
+				
+			
+			
+				return false;
+		}
+		
+		
+	}
+
+*/
 }

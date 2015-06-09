@@ -21,9 +21,13 @@ public class Monstre extends Personnage implements Elements {
     	this.setdForce(new Degree(force));
     	this.setdIntelligence(new Degree(intelligence));
     	this.setdAgilite(new Degree(agilite));
+    	this.setEsquive(new Degree(agilite));
     	this.setdConstitution(new Degree(constitution));
     	this.setdResistance(new Degree(resistance));
     	this.setMaxPa(maxPa) ;this.setPa(maxPa);
+    	this.remiseDegree();
+    	System.out.println(this.getEsquive() + " esquive du monstre");
+    	System.out.println(this.getDefense()+ " defense du monstre");
         this.type = type;
         this.experienceDonnee = experienceDonnee;
     }
@@ -32,6 +36,14 @@ public class Monstre extends Personnage implements Elements {
         super(choisi);
         this.type = choisi.getType();
         this.experienceDonnee = this.getExperienceDonnee();
+        this.setdForce(new Degree(choisi.getForce()));
+    	this.setdIntelligence(new Degree(choisi.getIntelligence()));
+    	this.setdAgilite(new Degree(choisi.getAgilite()));
+    	this.setEsquive(new Degree(choisi.getAgilite()));
+    	this.setdConstitution(new Degree(choisi.getConstitution()));
+    	this.setdResistance(new Degree(choisi.getResistance()));
+    	this.setMaxPa(choisi.getMaxPa()) ;this.setPa(choisi.getPa());
+    	this.remiseDegree();
     }
 
     public Monstre() {
@@ -59,17 +71,21 @@ public class Monstre extends Personnage implements Elements {
     }
 
 
-	public void remiseAttaque() {
-		
-	}
 
-	@Override
-	public void remiseDegats() {
-		
-	}
 
 	@Override
 	public void remiseDegree() {
+		this.setdForce(new Degree(this.getForce()));
+		this.setdIntelligence(new Degree(this.getIntelligence()));
+		this.setdConstitution(new Degree(this.getConstitution()));
+		this.setdAgilite(new Degree(this.getAgilite()));
+		this.setdResistance(new Degree(this.getResistance()));
+		this.setDegats(this.getdForce());
+		this.setAttaque(this.getdAgilite());
+		this.setInitiative(this.getdAgilite());
+		this.setEsquive(this.getdAgilite());
+		this.setDefense(this.getdConstitution());		
+		this.setDefenseM(this.getdResistance());
 	}
 	
 	public String toString(){
@@ -89,19 +105,28 @@ public class Monstre extends Personnage implements Elements {
 				int indice =0;
 
 				for (Monstre m : colMonstre){
-					System.out.println("Monstre " + indice + " de la collection => " + m);
+					System.out.println("Monstre " + indice + " de la collection => " + m.affichageCaracteristique());
 					indice++;
 				}
 				System.out.println("\n");
 	}
 	
+	public static void afficheCollectionMonstreAttaque(ArrayList <Monstre> colMonstre){
+				int indice =0;
+
+				for (Monstre m : colMonstre){
+					System.out.println((indice+1) +" - " + m.affichageCaracteristique());
+					indice++;
+				}
+				System.out.println("\n");
+	}
 	public static ArrayList<Monstre> ajoutMonstreType() throws PersonnageCarException{
 		Type bombo = new Bombo();
 		ArrayList <Monstre> monstreCollec = new ArrayList<Monstre>();
 		ArrayList <Monstre> bomboCollec = new ArrayList<Monstre>();
 		ArrayList <Monstre> ogreCollec =new ArrayList<Monstre>();
-		Monstre bomboFeu =  new Monstre("Bombo de Feu", 200, 100, 4, 12, 14, 8, 6, 10, bombo, 20);
-		Monstre grandBomboFeu = new Monstre("Grand Bombo de Feu", 200, 100, 5, 12, 14, 8, 6, 10, bombo, 20);
+		Monstre bomboFeu =  new Monstre("Bombo de Feu", 100, 100, 4, 12, 2, 8, 6, 10, bombo, 20);
+		Monstre grandBomboFeu = new Monstre("Grand Bombo de Feu", 100, 100, 5, 12, 14, 8, 6, 10, bombo, 20);
 		bomboCollec.add(bomboFeu);
 		bomboCollec.add(grandBomboFeu);
 	//	Monstre.afficheCollectionMonstre(bomboCollec);
@@ -122,14 +147,14 @@ public class Monstre extends Personnage implements Elements {
 		
 	}
 
-	@Override
-	public void remiseDegatsM() {
-		// TODO Auto-generated method stub
-	}
+
 
 	@Override
 	public String affichageCaracteristique() {
 		// TODO Auto-generated method stub
-		return null;
+		return  getNom() + "\nVIE:" + getVie() + ", MANA:" + getMaxMana() +
+        		" FOR: " + getForce() + " INT: " + getIntelligence()
+                + " AGI: " + getAgilite() +  " CONS: " + getConstitution()
+                + " RES: " + getResistance() + "\nPA:" + getPa() + "/"+getMaxPa();
 	}
 }

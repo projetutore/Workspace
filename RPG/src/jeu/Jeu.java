@@ -9,10 +9,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
+import Objets.ExceptionArme;
+import Objets.Classe.Arme.Arc;
 import sauvegarde.SauvegardeJeu;
+import jobs.Degree;
 import jobs.Heros;
 import jobs.Monstre;
+import jobs.PersonnageCarException;
 import carte.Carte;
 import carte.PtsCarte;
 
@@ -31,13 +36,32 @@ public class Jeu implements Serializable {
 		personnageJoueur = Heros.creationPersonnage();
 		//carte.Afficher();
 		carte.placer(3, 3, personnageJoueur);
-				
-		//carte.placer(2, 5, new Monstre());		carte.placer(10, 7, new Monstre());		carte.placer(10, 2, new Monstre());
+			
+		ArrayList<Monstre>listeMonstre = null;
+		try {
+		listeMonstre = Monstre.ajoutMonstreType();
+		} catch (PersonnageCarException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		carte.placer(2, 5, listeMonstre.get(0));		carte.placer(1, 6, listeMonstre.get(1));		carte.placer(5, 2, listeMonstre.get(0));
 		
 		//carte.placer(4,5, new PtsCarte("#")); 		carte.placer(8,2, new PtsCarte("#")); 		carte.placer(7,2, new PtsCarte("#"));
 
 
 		//carte.deplacement();	
+	    System.out.println(carte.Afficher());
+	    Arc artemis = null;
+	    try {
+			 artemis = new Arc("Hankyu", new Degree(4), new Degree(6), 3, "");
+		} catch (ExceptionArme e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    	personnageJoueur.equiper(artemis);
+		  personnageJoueur.choix(carte);
+		
 	}
 	public static void sauvegardeJeu(Jeu jeu){
 		FileOutputStream outputFile = null;
@@ -112,8 +136,6 @@ public class Jeu implements Serializable {
 		Jeu x= new Jeu();
 		Jeu.sauvegardeJeu(x);
 		//Jeu y = Jeu.chargementJeu();
-	    System.out.println(x.carte.Afficher());
-		x.carte.deplacement();
-		
+	  
 	}
 }

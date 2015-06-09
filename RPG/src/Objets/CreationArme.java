@@ -2,6 +2,7 @@ package Objets;
 
 import java.util.ArrayList;
 
+import Objets.Classe.Arme.EpeeLegere;
 import Objets.Interface.Arme;
 import jobs.Degree;
 

@@ -9,6 +9,7 @@ import Objets.Objet;
 import sauvegarde.SauvegardeJeu;
 import jobs.Heros;
 import jobs.Monstre;
+import jobs.Personnage;
 import jobs.PersonnageCarException;
 
 public class Carte implements Serializable{
@@ -90,17 +91,17 @@ public class Carte implements Serializable{
 		
 	}
 	//Deplacer
-	public int deplacerHaut(){
+	public int deplacerHaut(Elements el){
 		Elements tmp;
 		try{
 		for(int i = 0; i < nbLig; i++){
 			for(int j = 0; j<nbCol; j++){
 			
-				if(grille[i][j] instanceof Heros){//on cherche le joueur
+				if(grille[i][j].equals(el)){//on cherche le joueur
 					if(i-1 >= 0 && grille[i-1][j] == s ){//on teste la position
-						tmp = grille[i][j]; //On copie le perso
+					//	tmp = grille[i][j]; //On copie le perso
 						grille[i][j] = s;//on s la case 
-						grille[i-1][j] = tmp;//on deplace le perso
+						grille[i-1][j] = el;//on deplace le perso
 						return 1;
 					}
 					else if(i-1 <= nbLig && grille[i-1][j] instanceof Objet ){//on teste la position
@@ -127,25 +128,25 @@ public class Carte implements Serializable{
 		return 0;
 	}
 	
-	public void deplacerBas(){
+	public void deplacerBas(Elements el){
 		Elements tmp;
 		try{
 		for(int i = 0; i < nbLig; i++){
 			for(int j = 0; j<nbCol; j++){
 			
 			
-				if(grille[i][j] instanceof Heros){//on cherche le joueur
+				if(grille[i][j].equals(el)){//on cherche le joueur
 					if(i+1 <= nbLig && grille[i+1][j] == s ){//on teste la position
-						tmp = grille[i][j]; //On copie le perso
-						grille[i+1][j] = tmp;//on deplace le perso
+					//	tmp = grille[i][j]; //On copie le perso
+						grille[i+1][j] = el;//on deplace le perso
 						grille[i][j] = s;//on s la case 
 						return;
 					}
 					else if(i+1 <= nbLig && grille[i+1][j] instanceof Objet ){//on teste la position
-							((Heros) grille[i][j]).ajoutObjet((Objet) grille[i+1][j]);
+							((Heros) el).ajoutObjet((Objet) grille[i+1][j]);
 							tmp = grille[i][j]; 
-							grille[i+1][j] = tmp;
-							grille[i][j] = s;
+							grille[i+1][j] = el;//on deplace le perso
+							grille[i][j] = s;//on s la case 
 							return;
 							}
 					}		
@@ -157,24 +158,24 @@ public class Carte implements Serializable{
 	
 	}
 	
-	public void deplacerGauche(){
+	public void deplacerGauche(Elements el){
 		Elements tmp;
 		try{
 		
 		for(int i = 0; i < nbLig; i++){
 			for(int j = 0; j<nbCol; j++){
 			
-				if(grille[i][j] instanceof Heros && grille[i][j-1].toString().equals("O")){
-					((Heros) grille[i][j]).ajoutObjet((Objet) grille[i][j-1]);
-					tmp = grille[i][j];
+				if(grille[i][j].equals(el) && grille[i][j-1] instanceof Objet){
+					((Heros) el).ajoutObjet((Objet) grille[i][j-1]);
+					//tmp = grille[i][j];
 					grille[i][j]= s;
-					grille[i][j-1] = tmp;	
+					grille[i][j-1] = el;	
 				}
 				else if(grille[i][j] instanceof Heros && grille[i][j-1] == s){//on cherche le joueur
 					if(i-1 >= 0){//on teste la position
 						tmp = grille[i][j]; //On copie le perso
-						grille[i][j] = s;//on s la case 
-						grille[i][j-1] = tmp;//on deplace le perso
+						grille[i][j]= s;
+						grille[i][j-1] = el;
 					}
 			
 						
@@ -187,27 +188,36 @@ public class Carte implements Serializable{
 	
 	}
 	
-	public void deplacerDroite(){
+	public void deplacerDroite(Elements el){
 		Elements tmp;
 		try{
 		for(int i = 0; i < nbLig; i++){
 			for(int j = 0; j<nbCol; j++){
 				
-				if(grille[i][j] instanceof Heros && grille[i][j+1] instanceof Objet){
-					((Heros) grille[i][j]).ajoutObjet((Objet) grille[i][j+1]);
-					tmp = grille[i][j];
+				if(grille[i][j].equals(el) && grille[i][j+1] instanceof Objet){
+					((Heros) el).ajoutObjet((Objet) grille[i][j+1]);
+					//tmp = el;
 					grille[i][j]= s;
-					grille[i][j+1] = tmp;	
+					grille[i][j+1] = el;	
 					return;
 				}
-				else if(grille[i][j] instanceof Heros && grille[i][j+1] == s ){//on cherche le joueur
+				if(grille[i][j].equals(el) && grille[i][j+1] == s ){//on cherche le joueur
 					if(i+1 <= nbCol){//on teste la position
-						tmp = grille[i][j]; //On copie le perso
+				//		tmp = el; //On copie le perso
 						grille[i][j] = s;//on s la case 
-						grille[i][j+1] = tmp;//on deplace le perso
+						grille[i][j+1] = el;//on deplace le perso
 
 						return;
 					}		
+				}
+				else if(el instanceof Monstre && grille[i][j].equals(el) && grille[i][j+1] == s){
+					if(i+1 <= nbCol){//on teste la position
+						//tmp = grille[i][j]; //On copie le perso
+						grille[i][j] = s;//on s la case 
+						grille[i][j+1] = el;//on deplace le perso
+
+						return;
+					}
 				}
 			}		
 		}
@@ -216,10 +226,7 @@ public class Carte implements Serializable{
 		}
 	
 	}
-	public void deplacement(){
-		int i = 0;
-		while(i!=-1){
-		
+	public void deplacement(Elements x){
 		System.out.println("Vers où voulez vous deplacer ?\n(1 = gauche, 2 = bas, 3 = droite, 5 = haut)");
 		Scanner scan = new Scanner(System.in);
 		int nb = 0;
@@ -230,7 +237,7 @@ public class Carte implements Serializable{
 		}
 
 		switch (nb){
-		case 5: this.deplacerHaut();
+		case 5: this.deplacerHaut(x);
 
 	
 			/*System.out.println("D�but du combat...");
@@ -250,13 +257,13 @@ public class Carte implements Serializable{
 			}
 			System.out.println("Fin du combat...");*/
 		break;
-		case 2: this.deplacerBas();
+		case 2: this.deplacerBas(x);
 
 		break;
-		case 1: this.deplacerGauche();
+		case 1: this.deplacerGauche(x);
 
 		break;
-		case 3: this.deplacerDroite();
+		case 3: this.deplacerDroite(x);
 		break;
 		case 8: 
 			
@@ -265,11 +272,140 @@ public class Carte implements Serializable{
 		}
 		
 		System.out.println(this.Afficher());
+	}
+	
+	public void attaquer(Heros p, int numMain){
+		ArrayList <Monstre> monstre_a_attaquer = new ArrayList<Monstre>();
+		for(int i = 0; i < nbLig; i++){
+			for(int j = 0; j<nbCol; j++){
+				if(grille[i][j].equals(p)){
+					switch(numMain){
+					case 1:
+						for(int k = 0; k <=  p.getMainGauche().getPortee(); k++){
+							try{
+								if (grille[i+k][j] instanceof Monstre){
+									monstre_a_attaquer.add((Monstre) grille[i+k][j]);
+									System.out.println("i : " + i + " j : "+ j + " k : "+ k );
+								}
+								else if(grille[i-k][j] instanceof Monstre){
+									monstre_a_attaquer.add((Monstre) grille[i-k][j]);
+									System.out.println("i : " + i + " j : "+ j + " k : "+ k );
+								}
+							
+							}catch(ArrayIndexOutOfBoundsException e){}
+							
+						for(int l = 0; l<= p.getMainGauche().getPortee(); l++){
+								try{
+									if (grille[i][j+l] instanceof Monstre){
+										monstre_a_attaquer.add((Monstre) grille[i][j+l]);
+										System.out.println("i : " + i + " j : "+ j + " l : "+ l );
+									}
+									else if(grille[i][j-l] instanceof Monstre){
+										monstre_a_attaquer.add((Monstre) grille[i][j-l]);
+										System.out.println("i : " + i + " j : "+ j + " l : "+ l );
+									}
+								}catch(ArrayIndexOutOfBoundsException e){}
+						}
+						}
+					
+						
+						break;
 
-		i++;
+					case 2:
+						for(int k = 0; k <=  p.getMainGauche().getPortee(); k++){
+							try{
+								if (grille[i+k][j] instanceof Monstre && monstre_a_attaquer.contains(grille[i+k][j]) ==false){
+									monstre_a_attaquer.add((Monstre) grille[i+k][j] );
+									System.out.println("i : " + i + " j : "+ j + " k : "+ k );
+								}
+								else if(grille[i-k][j] instanceof Monstre && monstre_a_attaquer.contains(grille[i-k][j]) ==false){
+									monstre_a_attaquer.add((Monstre) grille[i-k][j]);
+									System.out.println("i : " + i + " j : "+ j + " k : "+ k );
+								}
+							
+							}catch(ArrayIndexOutOfBoundsException e){}
+							
+						for(int l = 0; l<= p.getMainGauche().getPortee(); l++){
+								try{
+									if (grille[i][j+l] instanceof Monstre && monstre_a_attaquer.contains(grille[i][j+l]) ==false){
+										monstre_a_attaquer.add((Monstre) grille[i][j+l]);
+										System.out.println("i : " + i + " j : "+ j + " l : "+ l );
+									}
+									else if(grille[i][j-l] instanceof Monstre && monstre_a_attaquer.contains(grille[i][j-l]) ==false){
+										monstre_a_attaquer.add((Monstre) grille[i][j-l]);
+										System.out.println("i : " + i + " j : "+ j + " l : "+ l );
+									}
+							
+							//	else if(grille[i-k][j-l] instanceof Monstre){
+							//			monstre_a_attaquer.add((Monstre) grille[i-k][j-l]);
+
+								
+					//		}
+						}catch(ArrayIndexOutOfBoundsException e){}
+					}
+			}
+						break;	
+
+				}
+				}
+			}
+		}
+		if(monstre_a_attaquer.isEmpty()==false){
+		System.out.println("Quel monstre souhaitez-vous attaquer?" );
+		Monstre.afficheCollectionMonstreAttaque(monstre_a_attaquer);
+		
+		int choix = 0;
+		Scanner scanner = new Scanner(System.in);
+		try{
+			choix = scanner.nextInt();
+		while(choix<0 && choix >monstre_a_attaquer.size()){
+			System.out.println("Veuillez saisir un chiffre entre 0(annuler l'attaque) et "+ monstre_a_attaquer.size());
+			choix = scanner.nextInt();
+		}
+		try{
+		if(numMain == 1)
+			p.getMainDroite().attaquer(p, monstre_a_attaquer.get(choix-1));		
+		else
+			p.getMainGauche().attaquer(p, monstre_a_attaquer.get(choix-1));
+		}catch(ArrayIndexOutOfBoundsException e){}
+		}catch(ArrayIndexOutOfBoundsException e){}
+		if(monstre_a_attaquer.get(choix-1).getVie()<0){
+			for(int i = 0; i < nbLig; i++){
+				for(int j = 0; j<nbCol; j++){
+					if(grille[i][j].equals(monstre_a_attaquer.get(choix-1))){
+						grille[i][j] = s;
+					}
+				}
+			}
+		}
+		}
+		monstre_a_attaquer.clear();
+		
+			
+		}
+
+	
+	/*public void choix(){
+		int i = 0;
+		while(i!=-1){
+		
+		System.out.println("Que souhaitez-vous faire ?\n(1 = deplacer, 2 = attaquer, 3 = voir l'inventaire)");
+		Scanner scan = new Scanner(System.in);
+		int nb = 0;
+		try{
+		nb = scan.nextInt();
+		}catch (InputMismatchException e){
+			System.out.println("Rentrer un autre chiffre");
+		}
+
+		switch (nb){
+		case 1: this.deplacement(this);
+		case 2: 
+		System.out.println("Avec quelle mainsouhaitez vous attaquer? ")	
+			this.attaquer(p, numMain);
 		}
 	}
-
+	}*/
 	public void placementAleatoire(){
 		try {
 			listeMonstre = Monstre.ajoutMonstreType();
@@ -291,7 +427,7 @@ public class Carte implements Serializable{
 		int monstre_tire = alea.nextInt(listeMonstre.size());
 		if(this.grille[aleatoireX][aleatoireY] == s){
 			switch (choix){
-			case 0: grille[aleatoireX][aleatoireY] =  listeMonstre.get(monstre_tire);
+			case 0: grille[aleatoireX][aleatoireY] =  new Monstre(listeMonstre.get(monstre_tire));
 					break;
 			case 1: grille[aleatoireX][aleatoireY] = listeObjet.get(objet_tire);
 					break;
