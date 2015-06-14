@@ -56,7 +56,7 @@ public class Cote implements Armure{
 	public String affichageCaracteristique() {
 		// TODO Auto-generated method stub
 		return  nomCote + "\nResistance Côte: " + resistanceCote + "; Poids de la côte : " + poids
-				+ "Emplacement : " + this.emplacementEquipement();
+				+ "\nEmplacement : " + this.emplacementEquipement();
 		}
 
 	@Override
@@ -70,15 +70,35 @@ public class Cote implements Armure{
 		h.setDefense(Degree.somme(h.getDefense(), this.getSolidite()));
 		h.setInitiative(Degree.soustraction(h.getInitiative(), this.getEncombrement()));
 		h.setEsquive(Degree.soustraction(h.getEsquive(),this.getEncombrement()));
-		h.setAttaque(Degree.somme(h.getAttaque(), this.getSolidite()));
 
+		h.retirerObjet(this);
 		return this;
+
 	}
 
 	@Override
-	public void desequiper(Heros h) {
+	public Armure desequiper(Heros h) {
+		h.setDefense(Degree.soustraction(h.getDefense(), this.getSolidite()));
 		h.setInitiative(Degree.somme(h.getInitiative(), this.getEncombrement()));
 		h.setEsquive(Degree.somme(h.getEsquive(),this.getEncombrement()));
-		h.setDefense(Degree.soustraction(h.getDefense(), this.getSolidite()));
+		h.ajoutObjet(this);
+		return this;
+
+	}
+
+	@Override
+	public void utiliser(Heros h) {
+		h.equiper(this);
+
+	}
+
+	@Override
+	public String typeArmure() {
+		// TODO Auto-generated method stub
+		return "Cote";
+	}
+	
+	public String toString(){
+		return "O";
 	}
 }

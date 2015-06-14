@@ -1,7 +1,6 @@
 package Objets.Classe.Arme;
 
 import CalculEtCombat.Calcul;
-import Objets.ExceptionArme;
 import Objets.Interface.Arme;
 import jobs.Degree;
 import jobs.Heros;
@@ -82,7 +81,7 @@ public class EpeeLegere implements Arme {
 	public Arme equiper(Heros h) {
 		h.setDegats(Degree.somme(h.getDegats(), this.getImpactArme()));
 		h.setAttaque(Degree.somme(h.getAttaque(), this.getManiabilite()));
-		
+		h.retirerObjet(this);
 		return this;
 	}
 
@@ -98,9 +97,9 @@ public class EpeeLegere implements Arme {
 			break;
 		}
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
-		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));		
+		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));	
+		h.ajoutObjet(this);
 		return this;
-
 	}
 
 	@Override
@@ -115,6 +114,12 @@ public class EpeeLegere implements Arme {
 	
 	public void utiliser(Heros h) {
 		h.equiper(this);;
+	}
+
+	@Override
+	public String typeArme() {
+		// TODO Auto-generated method stub
+		return "EpeeLegere";
 	}
 
 		

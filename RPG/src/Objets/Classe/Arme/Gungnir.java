@@ -1,17 +1,23 @@
 package Objets.Classe.Arme;
 
+import java.util.ArrayList;
+
+import carte.Elements;
 import jobs.Degree;
 import jobs.Heros;
 import jobs.Monstre;
 import CalculEtCombat.Calcul;
 import Objets.Interface.Arme;
+import Objets.Interface.Objet;
 
 public class Gungnir implements Arme{
  
+
 	public static final Degree bonusD = new Degree(7);
 	public static final Degree impactM = new Degree(7);
 	public static final Degree maniab = new Degree(11);
 	public static final Degree impactD = new Degree(13);
+
 
 	
 	public Degree getImpactArme() {
@@ -81,6 +87,7 @@ public class Gungnir implements Arme{
 				h.setDegatsM(Degree.somme(h.getdIntelligence(), this.getImpactMagique()));
 			}
 		h.setDefense(Degree.somme(h.getDefense(), bonusD));
+		h.retirerObjet(this);
 		return this;
 	}
 
@@ -92,8 +99,9 @@ public class Gungnir implements Arme{
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));	
 		h.setDefense(Degree.soustraction(h.getDefense(), bonusD));
 		h.setDegatsM(Degree.soustraction((h.getDegatsM()), impactM));
-		return this;
+		h.ajoutObjet(this);
 
+		return this;
 	}
 
 	@Override
@@ -108,9 +116,21 @@ public class Gungnir implements Arme{
 		h.regainDeVie(regen);
 		System.out.println("En outre, Gungnir vous permet de récuperer " + regen + " de vie."
 				+ "\nVotre vie est à présent de " + h.getVie());
+		
 	}
+
 
 	public void utiliser(Heros h) {
 		h.equiper(this);;
+	}
+
+	@Override
+	public String typeArme() {
+		// TODO Auto-generated method stub
+		return "Lance";
+	}
+	
+	public String toString(){
+		return "O";
 	}
 }

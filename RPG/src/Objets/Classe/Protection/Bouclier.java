@@ -4,6 +4,7 @@ import Objets.Interface.Arme;
 import Objets.Interface.Defensif;
 import jobs.Degree;
 import jobs.Heros;
+import jobs.Monstre;
 
 public class Bouclier implements Arme, Defensif{
 
@@ -98,11 +99,12 @@ public class Bouclier implements Arme, Defensif{
 		h.setInitiative(Degree.soustraction(h.getInitiative(), this.getEncombrement()));
 		h.setEsquive(Degree.soustraction(h.getEsquive(),this.getEncombrement()));
 		h.setDefense(Degree.somme(h.getDefense(), this.getSolidite()));
+		h.retirerObjet(this);
 		return this;
 	}
 
 	@Override
-	public void desequiper(Heros h, int numMain) {
+	public Arme desequiper(Heros h, int numMain) {
 		switch(numMain){
 		case 1: 
 			h.setMainDroite(Heros.DEFAULT_MAINDROITE);
@@ -117,11 +119,15 @@ public class Bouclier implements Arme, Defensif{
 		h.setInitiative(Degree.somme(h.getInitiative(), this.getEncombrement()));
 		h.setEsquive(Degree.somme(h.getEsquive(),this.getEncombrement()));
 		h.setDefense(Degree.soustraction(h.getDefense(), this.getSolidite()));
+
+		h.ajoutObjet(this);
+		return this;
+
 	}
 
 	@Override
-	public void desequiper(Heros h){
-		return;
+	public Arme desequiper(Heros h){
+		return null;
 	}
 
 	@Override
@@ -141,4 +147,23 @@ public class Bouclier implements Arme, Defensif{
 		return null;
 	}
 
+	@Override
+	public void utiliser(Heros h) {
+		h.equiper(this);
+		
+	}
+
+	@Override
+	public void attaquer(Heros h, Monstre m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String typeArme() {
+		// TODO Auto-generated method stub
+		return "Bouclier";
+	}
+
+	
 }

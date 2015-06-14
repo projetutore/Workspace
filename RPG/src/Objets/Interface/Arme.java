@@ -5,6 +5,7 @@ import jobs.Monstre;
 
 public interface Arme extends Offensif{
 
+	public String typeArme();
 	public Arme equiper(Heros h);
 	public Arme desequiper(Heros h);
 	public Arme desequiper(Heros h, int numMain);

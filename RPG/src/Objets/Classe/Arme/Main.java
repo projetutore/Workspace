@@ -73,6 +73,7 @@ public class Main implements Arme {
 		h.setDegats(h.getDegats());
 		h.setAttaque(h.getAttaque());
 		return this;
+
 	}
 	@Override
 	public Arme desequiper(Heros h) {
@@ -91,7 +92,6 @@ public class Main implements Arme {
 		}
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));
-		
 		return this;
 	}
 	@Override
@@ -101,5 +101,10 @@ public class Main implements Arme {
 	
 	public void utiliser(Heros h) {
 		h.equiper(this);;
+	}
+	@Override
+	public String typeArme() {
+		// TODO Auto-generated method stub
+		return "Main";
 	}
 }

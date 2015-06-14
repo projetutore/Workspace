@@ -4,7 +4,6 @@ import jobs.Degree;
 import jobs.Heros;
 import jobs.Monstre;
 import CalculEtCombat.Calcul;
-import Objets.ExceptionArme;
 import Objets.Interface.Arme;
 import Objets.Interface.Objet;
 
@@ -84,9 +83,8 @@ public class Arc implements Arme{
 	public Arme equiper(Heros h) {
 		h.setDegats(Degree.somme(h.getDegats(), this.getImpactArme()));
 		h.setAttaque(Degree.somme(h.getAttaque(), this.getManiabilite()));
-		
+		h.retirerObjet(this);
 		return this;
-		
 	}
 
 	@Override
@@ -95,6 +93,7 @@ public class Arc implements Arme{
 		h.setMainGauche(Heros.DEFAULT_MAINGAUCHE);
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));	
+		h.ajoutObjet(this);
 		return this;
 	}
 
@@ -111,6 +110,12 @@ public class Arc implements Arme{
 
 	@Override
 	public void utiliser(Heros h) {
-		h.equiper(this);;
+		h.equiper(this);
+	}
+
+	@Override
+	public String typeArme() {
+		// TODO Auto-generated method stub
+		return "Arc";
 	}
 }

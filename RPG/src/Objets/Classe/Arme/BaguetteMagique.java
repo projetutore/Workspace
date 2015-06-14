@@ -1,7 +1,6 @@
 package Objets.Classe.Arme;
 
 import CalculEtCombat.Calcul;
-import Objets.ExceptionArme;
 import Objets.Interface.Arme;
 import jobs.Degree;
 import jobs.Heros;
@@ -87,8 +86,9 @@ public class BaguetteMagique implements Arme{
 		h.setAttaque(Degree.somme(h.getAttaque(), this.getManiabilite()));
 		h.setDegatsM(Degree.somme(h.getDegatsM(), this.getManiabilite()));
 		
+		h.retirerObjet(this);
+
 		return this;
-		
 	}
 
 
@@ -104,8 +104,8 @@ public class BaguetteMagique implements Arme{
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));
 		h.setDegatsM(Degree.soustraction((h.getDegatsM()), this.getImpactMagique()));
+		h.ajoutObjet(this);
 		return this;
-
 	}
 
 	@Override
@@ -122,5 +122,11 @@ public class BaguetteMagique implements Arme{
 	@Override
 	public void utiliser(Heros h) {
 		h.equiper(this);;
+	}
+
+	@Override
+	public String typeArme() {
+		// TODO Auto-generated method stub
+		return "BaguetteMagique";
 	}
 }

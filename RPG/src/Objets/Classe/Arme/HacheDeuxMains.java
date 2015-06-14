@@ -1,5 +1,7 @@
 package Objets.Classe.Arme;
 
+import java.util.Random;
+
 import CalculEtCombat.Calcul;
 import Objets.Interface.Arme;
 import jobs.Degree;
@@ -55,6 +57,7 @@ public class HacheDeuxMains implements Arme {
 		h.setDegats(Degree.somme(h.getDegats(), this.getImpactArme()));
 		h.setAttaque(Degree.somme(h.getAttaque(), this.getManiabilite()));
 		
+		h.retirerObjet(this);
 		return this;
 	}
 
@@ -64,8 +67,8 @@ public class HacheDeuxMains implements Arme {
 		h.setMainGauche(Heros.DEFAULT_MAINGAUCHE);
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));
+		h.ajoutObjet(this);
 		return this;
-
 	}
 
 	@Override
@@ -75,10 +78,26 @@ public class HacheDeuxMains implements Arme {
 
 	@Override
 	public void attaquer(Heros h, Monstre m) {
-		Calcul.calculDegats(h, m);
+		int degats = Calcul.calculDegats(h, m);
+		Random chancebriseDefense = new Random();
+		int brisedefense = chancebriseDefense.nextInt(4);
+		if(degats>0){
+			if(brisedefense == 1){
+				m.getDefense().setReste(m.getDefense().getReste()-4);
+			}
+		}
 	}
 
 	public void utiliser(Heros h) {
 		h.equiper(this);;
+	}
+
+	@Override
+	public String typeArme() {
+		// TODO Auto-generated method stub
+		return "HacheDeuxMains";
+	}
+	public String toString(){
+		return "O";
 	}
 }

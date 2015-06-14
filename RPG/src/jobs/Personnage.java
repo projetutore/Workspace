@@ -144,8 +144,153 @@ public abstract class Personnage {
     public void setPa(int pa) {
         this.pa = pa;
     }
+    
+    public void translaterPa(int pa){
+    	this.pa += pa;
+    }
 
-    public int getMaxPa() {
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Personnage)) {
+			return false;
+		}
+		Personnage other = (Personnage) obj;
+		if (agilite != other.agilite) {
+			return false;
+		}
+		if (attaque == null) {
+			if (other.attaque != null) {
+				return false;
+			}
+		} else if (!attaque.equals(other.attaque)) {
+			return false;
+		}
+		if (constitution != other.constitution) {
+			return false;
+		}
+		if (dAgilite == null) {
+			if (other.dAgilite != null) {
+				return false;
+			}
+		} else if (!dAgilite.equals(other.dAgilite)) {
+			return false;
+		}
+		if (dConstitution == null) {
+			if (other.dConstitution != null) {
+				return false;
+			}
+		} else if (!dConstitution.equals(other.dConstitution)) {
+			return false;
+		}
+		if (dForce == null) {
+			if (other.dForce != null) {
+				return false;
+			}
+		} else if (!dForce.equals(other.dForce)) {
+			return false;
+		}
+		if (dIntelligence == null) {
+			if (other.dIntelligence != null) {
+				return false;
+			}
+		} else if (!dIntelligence.equals(other.dIntelligence)) {
+			return false;
+		}
+		if (dResistance == null) {
+			if (other.dResistance != null) {
+				return false;
+			}
+		} else if (!dResistance.equals(other.dResistance)) {
+			return false;
+		}
+		if (defense == null) {
+			if (other.defense != null) {
+				return false;
+			}
+		} else if (!defense.equals(other.defense)) {
+			return false;
+		}
+		if (defenseM == null) {
+			if (other.defenseM != null) {
+				return false;
+			}
+		} else if (!defenseM.equals(other.defenseM)) {
+			return false;
+		}
+		if (degats == null) {
+			if (other.degats != null) {
+				return false;
+			}
+		} else if (!degats.equals(other.degats)) {
+			return false;
+		}
+		if (degatsM == null) {
+			if (other.degatsM != null) {
+				return false;
+			}
+		} else if (!degatsM.equals(other.degatsM)) {
+			return false;
+		}
+		if (esquive == null) {
+			if (other.esquive != null) {
+				return false;
+			}
+		} else if (!esquive.equals(other.esquive)) {
+			return false;
+		}
+		if (force != other.force) {
+			return false;
+		}
+		if (initiative == null) {
+			if (other.initiative != null) {
+				return false;
+			}
+		} else if (!initiative.equals(other.initiative)) {
+			return false;
+		}
+		if (intelligence != other.intelligence) {
+			return false;
+		}
+		if (mana != other.mana) {
+			return false;
+		}
+		if (maxMana != other.maxMana) {
+			return false;
+		}
+		if (maxPa != other.maxPa) {
+			return false;
+		}
+		if (maxVie != other.maxVie) {
+			return false;
+		}
+		if (nom == null) {
+			if (other.nom != null) {
+				return false;
+			}
+		} else if (!nom.equals(other.nom)) {
+			return false;
+		}
+		if (pa != other.pa) {
+			return false;
+		}
+		if (resistance != other.resistance) {
+			return false;
+		}
+		if (vie != other.vie) {
+			return false;
+		}
+		return true;
+	}
+
+
+	public int getMaxPa() {
         return maxPa;
     }
 

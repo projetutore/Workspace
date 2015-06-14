@@ -1,7 +1,6 @@
 package Objets.Classe.Arme;
 
 import CalculEtCombat.Calcul;
-import Objets.ExceptionArme;
 import Objets.Interface.Arme;
 import jobs.Degree;
 import jobs.Heros;
@@ -86,6 +85,7 @@ public class Baton implements Arme {
 		}catch (NullPointerException e){
 			h.setDegatsM(Degree.somme(h.getdIntelligence(), this.getImpactMagique()));
 		}
+		h.retirerObjet(this);
 		return this;
 		}
 
@@ -98,8 +98,9 @@ public class Baton implements Arme {
 		h.setDegats(Degree.soustraction((h.getDegats()), this.getImpactArme()));
 		h.setAttaque(Degree.soustraction((h.getAttaque()),  this.getManiabilite()));
 		h.setDegatsM(Degree.soustraction((h.getDegatsM()), this.getImpactMagique()));
-		return this;
+		h.ajoutObjet(this);
 
+		return this;
 	}
 
 	@Override
@@ -116,5 +117,11 @@ public class Baton implements Arme {
 	
 	public void utiliser(Heros h) {
 		h.equiper(this);;
+	}
+
+	@Override
+	public String typeArme() {
+		// TODO Auto-generated method stub
+		return "Baton";
 	}
 }

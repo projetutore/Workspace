@@ -7,11 +7,7 @@ import Objets.Interface.Armure;
 
 public class Torse implements Armure{
 
-	private String nomTorse = "Torse";
 	
-	public Torse(){
-	}
-
 	public Degree getEncombrement() {
 		// TODO Auto-generated method stub
 		return new Degree();
@@ -64,11 +60,28 @@ public class Torse implements Armure{
 	}
 
 	@Override
-	public void desequiper(Heros h) {
+	public Armure desequiper(Heros h) {
 		h.setInitiative(Degree.somme(h.getInitiative(), this.getEncombrement()));
 		h.setEsquive(Degree.somme(h.getEsquive(),this.getEncombrement()));
 		h.setDefense(Degree.soustraction(h.getDefense(), this.getSolidite()));		
 		h.setDefenseM(Degree.somme(h.getDefenseM(), this.getResistanceMagique()));
+		
+		return this;
 	}
 
+	@Override
+	public void utiliser(Heros h) {
+		// TODO Auto-generated method stub
+		h.equiper(this);
+	}
+
+	@Override
+	public String typeArmure() {
+		// TODO Auto-generated method stub
+		return "Torse";
+	}
+
+	public String toString(){
+		return "O";
+	}
 }

@@ -1,7 +1,6 @@
 package jeu;
 
 import java.io.EOFException;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -11,33 +10,33 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import Objets.ExceptionArme;
-import Objets.Classe.Arme.Arc;
-import Objets.Classe.Arme.EpeeLourde;
-import Objets.Classe.Arme.Gungnir;
-import sauvegarde.SauvegardeJeu;
+import jobs.Bombo;
 import jobs.Degree;
 import jobs.Heros;
 import jobs.Monstre;
 import jobs.PersonnageCarException;
+import Objets.Classe.Arme.Arc;
+import Objets.Classe.Arme.EpeeLourde;
+import Objets.Classe.Arme.ExceptionArme;
+import Objets.Classe.Arme.Gungnir;
 import carte.Carte;
+import carte.Elements;
 import carte.PtsCarte;
 
 public class Jeu implements Serializable {
-	@Override
-	public String toString() {
-		return "Jeu :\n" + carte + "\npersonnageJoueur=" + personnageJoueur.affichageCaracteristique();
-				
-	}
-
-	public Carte carte;
-	public Heros personnageJoueur;
 	
-	public Jeu(){
+	private Carte carte;
+	private Heros personnageJoueur;
+	
+
+
+	
+	public Carte selectionCarte(){
+		
 		carte = new Carte(10,10);
 		personnageJoueur = Heros.creationPersonnage();
 		//carte.Afficher();
-		carte.placer(3, 3, personnageJoueur);
+		carte.placer(1, 1, personnageJoueur);
 			
 		ArrayList<Monstre>listeMonstre = null;
 		try {
@@ -46,30 +45,66 @@ public class Jeu implements Serializable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		 Arc artemis = null;
+		    EpeeLourde claymore = null;
+		    Gungnir gungnir = null;
+		    try {
+				 artemis = new Arc("Hankyu", new Degree(4), new Degree(6), 3, "");
+				 claymore = new EpeeLourde("Claymore", new Degree(14), new Degree(4), "" );
+				 gungnir = new Gungnir();
+			} catch (ExceptionArme e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-		carte.placer(2, 5, listeMonstre.get(0));		carte.placer(1, 6, listeMonstre.get(1));		carte.placer(5, 2, listeMonstre.get(0));
+		    personnageJoueur.equiper(claymore);
+		    personnageJoueur.equiper(claymore);
+
+		carte.placer(4, 2, new Bombo((Bombo) listeMonstre.get(0)));		carte.placer(6, 6, new Bombo((Bombo) listeMonstre.get(1)));		carte.placer(5, 2, new Bombo((Bombo) listeMonstre.get(0)));
 		
-		//carte.placer(4,5, new PtsCarte("#")); 		carte.placer(8,2, new PtsCarte("#")); 		carte.placer(7,2, new PtsCarte("#"));
+		
+		carte.placer(1, 5, claymore);	carte.placer(1, 4, new PtsCarte("#"));	carte.placer(1, 6, new PtsCarte("#"));
+		
+		carte.placer(2, 5, new Bombo((Bombo) listeMonstre.get(0)));	
+		
+		carte.placer(9, 4, new Bombo((Bombo) listeMonstre.get(0)));	carte.placer(9, 3, artemis);
+		
+//		carte.placer(9, 2, listeMonstre.get(0));	carte.placer(7, 10, listeMonstre.get(0));
 
+		carte.placer(5, 10, listeMonstre.get(0));	carte.placer(6, 9, new Bombo((Bombo) listeMonstre.get(0)));	carte.placer(7, 10, new Bombo((Bombo) listeMonstre.get(0)));
 
 		//carte.deplacement();	
-	    System.out.println(carte.Afficher());
-	    Arc artemis = null;
-	    EpeeLourde claymore = null;
-	    Gungnir gungnir = null;
-	    try {
-			 artemis = new Arc("Hankyu", new Degree(4), new Degree(6), 3, "");
-			 claymore = new EpeeLourde("Claymore", new Degree(14), new Degree(4), "" );
-			 gungnir = new Gungnir();
-		} catch (ExceptionArme e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    	personnageJoueur.equiper(gungnir);
-	   	personnageJoueur.equiper(claymore);
-	    	personnageJoueur.equiper(artemis);
-		  personnageJoueur.choix(carte);
+	//    System.out.println(carte.Afficher());
+	   
+	    carte.placer(6,10, gungnir); 
+		//  personnageJoueur.choix(carte);
 		
+	    
+		return carte;
+		
+	}
+	
+	
+	public Jeu(){
+	
+	}
+	
+	@Override
+	public String toString() {
+		return "Jeu :\n" + carte + "\npersonnageJoueur=" + personnageJoueur.affichageCaracteristique();
+				
+	}
+	public Carte getCarte() {
+		return carte;
+	}
+	public void setCarte(Carte carte) {
+		this.carte = carte;
+	}
+	public Heros getPersonnageJoueur() {
+		return personnageJoueur;
+	}
+	public void setPersonnageJoueur(Heros personnageJoueur) {
+		this.personnageJoueur = personnageJoueur;
 	}
 	public static void sauvegardeJeu(Jeu jeu){
 		FileOutputStream outputFile = null;
@@ -143,6 +178,7 @@ public class Jeu implements Serializable {
 	public static void main(String args[]){
 		Jeu x= new Jeu();
 		Jeu.sauvegardeJeu(x);
+		x.getPersonnageJoueur().choix(x.getCarte());
 		//Jeu y = Jeu.chargementJeu();
 	  
 	}
